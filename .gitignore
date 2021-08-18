@@ -1,0 +1,6 @@
+### Visual Studio Code ###
+.vscode/
+
+### Pycache ###
+modules/__pycache__/
+*.pyc
