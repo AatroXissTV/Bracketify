@@ -29,8 +29,7 @@ Then run the following commands:
     ```
     $ pip install -r requirements.txt
     ```
-
-Once you have created the environment and the requirements.txt you can execute the script that way :
+* Once you have created the environment and the requirements.txt you can execute the script that way :
     ```
     $ python main.py
     ```
@@ -45,7 +44,7 @@ I'm using the CRUD method (Create, read, update, delete) for the player manageme
 You can consult the project management board if you want accurate tracking of progress made. 
 
 ### To Do list
-- [] CRUD files converted into MVC CRUD Files for the player management system.
+- [ ] CRUD files converted into MVC CRUD Files for the player management system.
 
 ## Author
 
