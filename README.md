@@ -36,15 +36,17 @@ Then run the following commands:
 
 ## Future Updates
 
-This is the first version of Bracketify. The files are not structured with MVC yet. 
-I'm only trying to have player management done first.
-
-I'm using the CRUD method (Create, read, update, delete) for the player management system
+This is a beta version of Bracketify. files are  structured with MVC but critical features are missing. 
+I'm trying to implement models first. 
 
 You can consult the project management board if you want accurate tracking of progress made. 
 
 ### To Do list
-- [ ] CRUD files converted into MVC CRUD Files for the player management system.
+- [ ] Create player model
+- [ ] Create tournament model
+- [ ] Create attendee model (player participating to a tournament)
+- [ ] Create match model
+- [ ] Create round model
 
 ## Author
 
