@@ -43,9 +43,9 @@ Updates on these three models are expected and currently they are not working as
 You can consult the project management board if you want accurate tracking of progress made. 
 
 ### To Do list
-- [ ] Create player model
-- [ ] Create tournament model
-- [ ] Create attendee model (player participating to a tournament)
+- [x] Create player model
+- [x] Create tournament model
+- [x] Create participant model
 - [ ] Create match model
 - [ ] Create round model
 
