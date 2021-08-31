@@ -37,7 +37,8 @@ Then run the following commands:
 ## Future Updates
 
 This is a beta version of Bracketify. files are  structured with MVC but critical features are missing. 
-I'm trying to implement models first. 
+First version of Player, Participant & Tournament models are done. 
+Updates on these three models are expected and currently they are not working as intended.
 
 You can consult the project management board if you want accurate tracking of progress made. 
 
