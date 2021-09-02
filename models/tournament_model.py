@@ -61,10 +61,6 @@ class Tournament:
             Return a dict() with these infos.
         create_tournament(self):
             Method used to create a new tournament in 'tournaments' DB.
-        add_players_in_tournament(self, player_id):
-            Method used to add players in players_list().
-            player_id -> int
-                is the player's ID in 'players' DB.
 
     - ClassMethods:
         deserialize_tournament(cls, data):
@@ -89,9 +85,6 @@ class Tournament:
     def create_tournament(self):
         serialized_tournament = self.serialize_tournament()
         db_tournaments.insert(serialized_tournament)
-
-    def add_players_in_tournament(self, participant):
-        pass
 
     @classmethod
     def deserialize_tournament(cls, data):

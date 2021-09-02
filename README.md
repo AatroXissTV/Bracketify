@@ -36,18 +36,23 @@ Then run the following commands:
 
 ## Future Updates
 
-This is a beta version of Bracketify. files are  structured with MVC but critical features are missing. 
-First version of Player, Participant & Tournament models are done. 
-Updates on these three models are expected and currently they are not working as intended.
+This is a beta version of Bracketify and things are not working as expected.
+Files are structured with MVC but critical features are missing such as views and controllers. 
+Models are not completed yet and work has to be done on every model to ensure everything is working as intended. 
 
-You can consult the project management board if you want accurate tracking of progress made. 
+Updates on the models are expected to be done by the end of the week (Aug 5, 2021). 
+
+You can consult the project management board if you want accurate tracking of progress! 
 
 ### To Do list
 - [x] Create player model
 - [x] Create tournament model
 - [x] Create participant model
-- [ ] Create match model
-- [ ] Create round model
+- [x] Create match model
+- [x] Create round model
+- [ ] Create Main Menu view
+- [ ] Create tournament view
+- [ ] Create player view
 
 ## Author
 

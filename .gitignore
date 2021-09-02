@@ -1,10 +1,6 @@
 ### Visual Studio Code ###
 .vscode/
 
-### Pending Models ###
-Models/rounds_model.py
-Models/match_model.py
-
 ### Pycache ###
 /__pycache__/
 *.pyc
