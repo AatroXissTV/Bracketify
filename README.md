@@ -34,13 +34,16 @@ Then run the following commands:
     $ python main.py
     ```
 
-## Future Updates
+## Updates
 
 This is a beta version of Bracketify and things are not working as expected.
 Files are structured with MVC but critical features are missing such as views and controllers. 
 Models are not completed yet and work has to be done on every model to ensure everything is working as intended. 
 
 Updates on the models are expected to be done by the end of the week (Aug 5, 2021). 
+
+First version of Views have been implementend. 
+They are not connected with anything.
 
 You can consult the project management board if you want accurate tracking of progress! 
 

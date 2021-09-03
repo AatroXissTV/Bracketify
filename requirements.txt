@@ -1,3 +1,4 @@
 # Requirements.txt for Bracketify
 flake8==3.9.2
 tinydb==4.5.1
+pyfiglet==0.8.post1
