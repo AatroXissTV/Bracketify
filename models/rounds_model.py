@@ -1,6 +1,6 @@
 # rounds_model.py
 # Created Aug 27, 2021 at 10:10 CEST
-# Last updated Sep 01, 2021 at 10:21 CEST
+# Last updated Sep 06, 2021 at 10:16 CEST
 
 # Standard imports
 from datetime import datetime as d
@@ -23,7 +23,7 @@ class Round:
         - Args :
             name -> str
                 Name of the round in tournament
-            match_list -> list
+            matches_list -> list
                 List of oll matchs in the round.
             start_time -> str
                 Start time of the round.
@@ -83,21 +83,3 @@ class Round:
         start_time = data['start time']
         end_time = data['end time']
         return Round(name, round_number, match_list, start_time, end_time)
-
-
-"""TEST ROUND MODEL
-"""
-round1 = Round("Round", "1", ["Adrien (None) VS Xavier (None)",
-               "Marianne (None) VS Colas (None)"])
-serialized = round1.serialize_round()
-print(serialized)
-print("----------------------")
-
-name_round = round1.round_name()
-serialized2 = round1.serialize_round()
-print(serialized2)
-print("----------------------")
-
-start_round = round1.start_round()
-serialized3 = round1.serialize_round()
-print(serialized3)

@@ -1,6 +1,6 @@
 # player_model.py
 # Created Aug 26, 2021 at 12:00 CEST
-# Last updated Aug 31, 2021 at 12:09 CEST
+# Last updated Sep 06, 2021 at 09:38 CEST
 
 # Standard imports
 
@@ -30,10 +30,8 @@ class Player:
                 First name of the player.
             birth_date -> str
                 Birthday of the player.
-                Must be a 'DD/MM/YYYY' string
             gender -> str
                 Gender of the player.
-                Must be either 'F' or 'M'
             rank -> int
                 Current rank of the player.
                 Must be a positive int.
@@ -118,53 +116,3 @@ class Player:
     def get_players_ordered_by_name(cls, players_list):
         players_list.sort(key=lambda x: x['name'])
         return players_list
-
-
-""" TESTING MODEL
-"""
-# Create Player Objects
-player1 = Player(name='Dang', first_name='Xavier', birth_date='26/08/1980',
-                 gender='M', rank=3)
-player2 = Player(name='LittleBigWhale', first_name='Marianne',
-                 birth_date='13/11/1994', gender='F', rank=2)
-player3 = Player(name='Grasset', first_name='Colas', birth_date='10/03/1990',
-                 gender='M', rank=3)
-player4 = Player(name='TV', first_name='AatroXiss', birth_date='19/12/1997',
-                 gender='M', rank=5)
-player5 = Player(name='Nougaret', first_name='Adrien', birth_date='01/02/1990',
-                 gender='M', rank=1)
-
-# Serialize + insert Player objects in DB.
-serialized = player1.serialize_player()
-player1.create_player()
-
-serialized = player2.serialize_player()
-player2.create_player()
-
-serialized = player3.serialize_player()
-player3.create_player()
-
-serialized = player4.serialize_player()
-player4.create_player()
-
-serialized = player5.serialize_player()
-player5.create_player()
-
-# Load DB
-load1 = Player.load_players_db()
-print(load1)
-
-# Update Rank
-player4.update_player_rank(4, 4)
-
-# Load DB Again
-load2 = Player.load_players_db()
-print(load2)
-
-# Sort DB by rank
-load3 = Player.get_players_ordered_by_rank(load2)
-print(load3)
-
-# Sort DB by name
-load4 = Player.get_players_ordered_by_name(load3)
-print(load4)

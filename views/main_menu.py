@@ -1,5 +1,6 @@
 # main_menu.py
 # Created Sep 03, 2021 at 14:42
+# Last updated Sep 06, 2021 at 10:23
 
 # Standard imports
 
@@ -188,45 +189,3 @@ class MainMenu(Cli):
 
     def quit_menu(self):
         exit()
-
-
-"""TEST CLI Menu
-"""
-menu = MainMenu(app_title='Bracketify')
-title = Cli("Bracketify")
-
-# MENU
-while menu != 'Quit':
-    title.display_title()
-    test_menu = menu.main_menu()
-    if (test_menu == 'Add a player'):
-        title.clear_screen()
-        title.display_title()
-        print("Add a player to the 'players' DB.")
-        menu.player_menu()
-        title.delay_new_screen()
-    elif (test_menu == 'Modify a player rank'):
-        title.clear_screen()
-        title.display_title()
-        print("Modify a player's rank in 'players' DB.")
-        menu.modify_rank_menu()
-        title.delay_new_screen()
-    elif (test_menu == 'Add a tournament'):
-        title.clear_screen()
-        title.display_title()
-        print("Add a tournament to the 'tournaments' DB.")
-        menu.tournament_menu()
-        title.delay_new_screen()
-    elif (test_menu == 'Launch a tournament'):
-        title.clear_screen()
-        title.display_title()
-        print("Select the tournament you wanna launch")
-        menu.launch_tournament_menu()
-    elif (test_menu == 'Display Infos'):
-        title.clear_screen()
-        title.display_title()
-        print("Display the info you wanna check")
-        menu.display_infos_menu()
-    elif (test_menu == 'Quit'):
-        title.clear_screen()
-        menu.quit_menu()

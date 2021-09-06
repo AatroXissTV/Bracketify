@@ -1,5 +1,6 @@
 # match_model.py
 # Created Aug 27, 2021 at 10:52 CEST
+# Last updated Sep 06, 2021 at 10:15 CEST
 
 # Standard imports
 
@@ -18,7 +19,7 @@ class Match:
 
         - Args:
         p_one & p_two -> str
-            Represents a Player instance
+            Represents a Player instance (participant)
         p_one_score & p_two_score -> int
             Initialize with None and represents the score of a match.
         """
@@ -62,22 +63,3 @@ class Match:
                                             self.p_one_score,
                                             self.p_two,
                                             self.p_two_score)
-
-
-"""TEST MATCH
-"""
-# Create a match
-match1 = Match("Adrien", "Xavier")
-print(match1)
-print("-----------------------")
-
-match2 = Match("Marianne", "Colas")
-print(match2)
-print("-----------------------")
-
-match1.match_results("1")
-print(match1)
-print("-----------------------")
-
-match1.create_match_tuple
-print(match1)

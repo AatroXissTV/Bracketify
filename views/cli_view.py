@@ -1,6 +1,6 @@
 # cli_view.py
 # Created Aug 31, 2021 at 15:37 CEST
-# Last updated Sep 03, 2021 at 14:40 CEST
+# Last updated Sep 06, 2021 at 10:25 CEST
 
 # Standard imports
 import os

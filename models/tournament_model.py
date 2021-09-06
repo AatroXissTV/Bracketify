@@ -1,6 +1,6 @@
 # tournament_model.py
 # Created Aug 26, 2021 at 12:13 CEST
-# Last updated Aug 31, 2021 at 13:17 CEST
+# Last updated Sep 06, 2021 at 13:17 CEST
 
 # Standard imports
 
@@ -14,8 +14,6 @@ from tinydb import TinyDB
 # Create or Open DB.
 db = TinyDB('database/bracketify.json')
 db_tournaments = db.table('tournaments')
-
-NUMB_OF_ROUNDS = 4
 
 
 class Tournament:
@@ -105,31 +103,3 @@ class Tournament:
         for tournament in db_tournaments.all():
             tournaments_list.append(tournament)
         return tournaments_list
-
-
-"""TESTING MODEL
-"""
-# Create tournaments objects
-tournament1 = Tournament(name='GamePass Challenge #1', location='Lyon',
-                         start_date='1450', end_date='1600', description='txt',
-                         rules='blitz', rounds_list=[], players_list=[])
-tournament2 = Tournament(name='Fight for sub', location='Montpellier',
-                         start_date='1700', end_date='0000', description='txt',
-                         rules='rapide', rounds_list=[], players_list=[])
-tournament3 = Tournament(name='Zlan', location='Lyon',
-                         start_date='1300', end_date='0000', description='txt',
-                         rules='blitz', rounds_list=[], players_list=[])
-
-# Serialize + insert Tournament Objects in DB.
-serialized = tournament1.serialize_tournament()
-tournament1.create_tournament()
-
-serialized = tournament2.serialize_tournament()
-tournament2.create_tournament()
-
-serialized = tournament3.serialize_tournament()
-tournament3.create_tournament()
-
-# Load DB
-load1 = Tournament.load_tournaments_db()
-print(load1)
