@@ -1,6 +1,6 @@
 # tournament_model.py
 # Created Aug 26, 2021 at 12:13 CEST
-# Last updated Sep 06, 2021 at 13:17 CEST
+# Last updated Sep 07, 2021 at 10:52 CEST
 
 # Standard imports
 
@@ -21,7 +21,7 @@ class Tournament:
     """
 
     def __init__(self, name, location, start_date, end_date, description,
-                 rules, rounds_list=[], players_list=[]):
+                 rules, rounds_number=[], rounds_list=[], players_list=[]):
         """Constructor
 
         - Args:
@@ -48,6 +48,7 @@ class Tournament:
         self.end_date = end_date
         self.description = description
         self.rules = rules
+        self.rounds_number = rounds_number
         self.rounds_list = rounds_list
         self.players_list = players_list
 

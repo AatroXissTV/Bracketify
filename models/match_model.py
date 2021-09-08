@@ -1,6 +1,6 @@
 # match_model.py
 # Created Aug 27, 2021 at 10:52 CEST
-# Last updated Sep 06, 2021 at 10:15 CEST
+# Last updated Sep 08, 2021 at 16:07 CEST
 
 # Standard imports
 
@@ -39,7 +39,7 @@ class Match:
         create_match_tuple(self):
             create match tuples with data
         __str__(self):
-            Method is used to cas infos of match into a str.
+            Method is used to cast infos of match into a str.
     """
 
     def match_results(self, winner):

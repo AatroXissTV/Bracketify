@@ -1,6 +1,6 @@
 # main_menu.py
 # Created Sep 03, 2021 at 14:42
-# Last updated Sep 06, 2021 at 10:23
+# Last updated Sep 08, 2021 at 16:07
 
 # Standard imports
 
@@ -43,6 +43,74 @@ class MainMenu(Cli):
                             'Launch a tournament',
                             'Display Infos',
                             'Quit']
+            },
+        ]
+
+        # Modify Rank Form
+        self.modify_rank_form = [
+            {
+                'type': 'list',
+                'name': 'name',
+                'message': 'Select the player to edit.',
+                'choices': [],
+            },
+            {
+                'type': 'input',
+                'name': 'new_rank',
+                'message': 'Enter the new rank.',
+                'filter': lambda val: int(val) if int(val) > 0 else None
+            },
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Are you sure to validate these fields ?',
+                'default': False,
+            }
+        ]
+
+        # Tournament From
+        self.tournament_form = [
+            {
+                'type': 'input',
+                'name': 'name',
+                'message': "Tournament's name : ",
+            },
+            {
+                'type': 'input',
+                'name': 'location',
+                'message': 'location',
+            },
+            {
+                'type': 'input',
+                'name': 'start_date',
+                'message': "Start Date",
+            },
+            {
+                'type': 'input',
+                'name': 'description',
+                'message': 'Comments',
+
+            },
+            {
+                'type': 'list',
+                'name': 'rules',
+                'message': 'Select the tournaments rules',
+                'choices': ["Bullet", "Blitz", "Rapid"],
+            },
+            {
+                'type': 'input',
+                'name': 'rounds_number',
+                'message': 'Numb of rounds > 0 or set to 4',
+                'default': '4',
+                'filter': lambda val: int(val) if int(val) > 0 else None,
+            },
+            {
+                'type': 'checkbox',
+                'message': 'Select players participating',
+                'name': 'players_list',
+                'choices': [],
+                'validate': lambda choices: 'Select 8 players min'
+                if len(choices['players_list']) < 8 else True,
             },
         ]
 
@@ -95,66 +163,12 @@ class MainMenu(Cli):
         return answers
 
     def modify_rank_menu(self):
-        modify_rank_form = [
-            {
-                'type': 'list',
-                'name': 'name',
-                'message': 'Select the player to edit',
-                'choices': [],
-            },
-            {
-                'type': 'input',
-                'name': 'new_rank',
-                'filter': lambda val: int(val) if int(val) > 0 else None
-            },
-        ]
+        modify_rank_form = self.modify_rank_form
         answers = prompt(modify_rank_form, style=self.style)
         return answers
 
     def tournament_menu(self):
-        tournament_form = [
-            {
-                'type': 'input',
-                'name': 'name',
-                'message': "Tournaments name: ",
-            },
-            {
-                'type': 'input',
-                'name': 'location',
-                'message': 'Location: ',
-            },
-            {
-                'type': 'input',
-                'name': 'start_date',
-                'message': 'Tournaments start date: ',
-            },
-            {
-                'type': 'input',
-                'name': 'description',
-                'message': 'Comments',
-            },
-            {
-                'type': 'list',
-                'name': 'rules',
-                'message': "Select the tournaments rules",
-                'choices': ["Bullet", "Blitz", "Rapid"],
-            },
-            {
-                'type': 'input',
-                'name': 'rounds_number',
-                'messag': 'Numb of rounds > 0 or set to 4',
-                'default': '4',
-                'filter': lambda val: int(val) if int(val) > 0 else None
-            },
-            {
-                'type': 'checkbox',
-                'message': 'Select players participating',
-                'name': 'players_list',
-                'choices': [],
-                'validate': lambda choices: 'Select 8 players min'
-                if len(choices['players_list']) < 8 else True
-            },
-        ]
+        tournament_form = self.tournament_form
         answers = prompt(tournament_form, style=self.style)
         return answers
 

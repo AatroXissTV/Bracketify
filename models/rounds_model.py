@@ -1,6 +1,6 @@
 # rounds_model.py
 # Created Aug 27, 2021 at 10:10 CEST
-# Last updated Sep 06, 2021 at 10:16 CEST
+# Last updated Sep 07, 2021 at 10:46 CEST
 
 # Standard imports
 from datetime import datetime as d
@@ -13,7 +13,7 @@ from datetime import datetime as d
 
 
 class Round:
-    """Represents a round of a tournament.
+    """Represents a round.
     """
 
     def __init__(self, name, round_number, matches_list=[],

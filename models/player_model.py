@@ -1,11 +1,12 @@
 # player_model.py
 # Created Aug 26, 2021 at 12:00 CEST
-# Last updated Sep 06, 2021 at 09:38 CEST
+# Last updated Sep 08, 2021 at 16:06 CEST
 
 # Standard imports
 
 # Third-party imports
 from tinydb import TinyDB
+from tinydb.queries import where
 
 # Local imports
 
@@ -88,7 +89,7 @@ class Player:
         serialized_player = self.serialize_player()
         db_players.insert(serialized_player)
 
-    def update_player_rank(self, player_id, new_rank):
+    def update_player_rank(self, new_rank, player_id):
         db_players.update({'rank': new_rank}, doc_ids=[player_id])
 
     @classmethod
@@ -106,6 +107,12 @@ class Player:
         for player in db_players.all():
             players_list.append(player)
         return players_list
+
+    @classmethod
+    def get_player_doc_id(cls, name):
+        for player in db_players.search(where('name') == name):
+            player_doc_id = player.doc_id
+            return player_doc_id
 
     @classmethod
     def get_players_ordered_by_rank(cls, players_list):
