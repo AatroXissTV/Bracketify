@@ -3,6 +3,9 @@
 ### Visual Studio Code ###
 .vscode/
 
+### Database ###
+database/
+
 ### Pycache ###
 /__pycache__/
 *.pyc

@@ -87,6 +87,11 @@ class MainMenu(Cli):
             },
             {
                 'type': 'input',
+                'name': 'end_date',
+                'message': "End Date",
+            },
+            {
+                'type': 'input',
                 'name': 'description',
                 'message': 'Comments',
 
@@ -112,6 +117,12 @@ class MainMenu(Cli):
                 'validate': lambda choices: 'Select 8 players min'
                 if len(choices['players_list']) < 8 else True,
             },
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Are you sure to validate these fields ?',
+                'default': False,
+            }
         ]
 
     """Methods used MainMenu class

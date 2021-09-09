@@ -21,7 +21,7 @@ class Tournament:
     """
 
     def __init__(self, name, location, start_date, end_date, description,
-                 rules, rounds_number=[], rounds_list=[], players_list=[]):
+                 rules, rounds_number, players_list=[], rounds_list=[]):
         """Constructor
 
         - Args:
@@ -49,8 +49,8 @@ class Tournament:
         self.description = description
         self.rules = rules
         self.rounds_number = rounds_number
-        self.rounds_list = rounds_list
         self.players_list = players_list
+        self.rounds_list = rounds_list
 
     """Methods used in Tournament class
 
@@ -77,8 +77,9 @@ class Tournament:
             'end_date': self.end_date,
             'description': self.description,
             'rules': self.rules,
+            'rounds_number': self.rounds_number,
+            'players_list': self.players_list,
             'rounds_list': self.rounds_list,
-            'players_list': self.players_list
         }
 
     def create_tournament(self):
@@ -93,10 +94,10 @@ class Tournament:
         end_date = data['end_date']
         description = data['description']
         rules = data['rules']
-        rounds_list = data['rounds_list']
+        rounds_number = data['rounds_number']
         players_list = data['players_list']
         return Tournament(name, location, start_date, end_date, description,
-                          rules, rounds_list, players_list)
+                          rules, rounds_number, players_list)
 
     @classmethod
     def load_tournaments_db(cls):

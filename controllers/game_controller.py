@@ -42,6 +42,7 @@ class GameController():
         view_title = Cli(title)
 
         while view_menu != 'Quit':
+            view_title.clear_screen()
             view_title.display_title()
             menu = view_menu.main_menu()
             if (menu == 'Add a player'):
@@ -79,10 +80,15 @@ class GameController():
                 print("Add a tournament to the 'tournaments' DB.")
 
                 display_players = Player.load_players_db()
+                view_menu.tournament_form[7]['choices'] = []
 
                 for player in display_players:
-                    p_name = player['name']
-                    view_menu.tournament_form[6]['choices'].append(p_name)
+                    view_menu.tournament_form[7]['choices'].append(
+                        {
+                            'name': "{} {}".format(player['first_name'],
+                                                   player['name'])
+                        }
+                    )
 
                 answers = view_menu.tournament_menu()
 
@@ -104,11 +110,24 @@ class GameController():
                 print("Display the info you wanna check")
                 display_menu = view_menu.display_infos_menu()
                 if (display_menu == 'All players'):
+                    pass
+
+                elif (display_menu == 'All tournaments'):
+                    pass
+
+                elif (display_menu == 'All players of a tournament'):
+                    pass
+
+                elif (display_menu == 'All rounds of a tournament'):
+                    pass
+
+                elif (display_menu == 'All matches of a tournament'):
+                    pass
+
+                elif (display_menu == 'Return to main menu'):
                     view_title.clear_screen()
                     view_title.display_title()
-                    print("Here is the list of all the players.")
-                    display_players = Player.load_players_db()
-                    print(display_players)
+                    view_menu.main_menu()
 
             elif (menu == 'Quit'):
                 view_title.clear_screen()
