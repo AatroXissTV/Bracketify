@@ -1,6 +1,6 @@
 # tournament_model.py
 # Created Aug 26, 2021 at 12:13 CEST
-# Last updated Sep 07, 2021 at 10:52 CEST
+# Last Updated Sep 10, 2021 at 15:12
 
 # Standard imports
 
@@ -105,3 +105,12 @@ class Tournament:
         for tournament in db_tournaments.all():
             tournaments_list.append(tournament)
         return tournaments_list
+
+    def __str__(self) -> str:
+        return ("Name: {}\nLocation: {}\nDate {} - {}\nRounds Number: {}\n"
+                "Rules: {}\nDescription: {}\n".format(self.name, self.location,
+                                                      self.start_date,
+                                                      self.end_date,
+                                                      self.rounds_number,
+                                                      self.rules,
+                                                      self.description))

@@ -1,5 +1,6 @@
 # player_controller.py
 # Created Sep 10, 2021 at 10:00
+# Last Updated Sep 10, 2021 at 15:12
 
 # Standard imports
 
@@ -55,16 +56,14 @@ class PlayerController():
         print("List of players sorted in alphabetical order")
         list = Player.load_players_db()
         display_alphabetical_p = Player.get_players_ordered_by_name(list)
-        players_list = []
         for player in display_alphabetical_p:
-            players_list.append(player)
-        print(players_list)
+            obj = Player.deserialize_player(player)
+            print(obj)
 
     def display_rank_player(self):
         print("List of players sorted in rank order")
         list = Player.load_players_db()
         display_alphabetical_p = Player.get_players_ordered_by_rank(list)
-        players_list = []
         for player in display_alphabetical_p:
-            players_list.append(player)
-        print(players_list)
+            obj = Player.deserialize_player(player)
+            print(obj)

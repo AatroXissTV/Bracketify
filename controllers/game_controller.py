@@ -1,6 +1,6 @@
 # game_controller.py
 # Created Sep 07, 2021 at 11:19
-# Last updated Sep 08, 2021 at 16:06
+# Last Updated Sep 10, 2021 at 15:12
 
 # Standard imports
 
@@ -115,4 +115,5 @@ class GameController():
         subsubsubmenu = menus.return_to_main()
 
         if (subsubsubmenu == 'True'):
+            Cli.cli_exit(title)
             GameController.start()

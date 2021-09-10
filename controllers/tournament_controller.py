@@ -1,6 +1,6 @@
 # tournament_controller.py
 # Created Sep 10, 2021 at 11:10
-# Last updated Sep 10, 2021 at 11:10
+# Last Updated Sep 10, 2021 at 15:12
 
 # Standrad imports
 
@@ -48,7 +48,6 @@ class TournamentController():
     def display_tournaments(self):
         print("List of players sorted in alphabetical order")
         tournaments_list = Tournament.load_tournaments_db()
-        tournaments = []
         for tournament in tournaments_list:
-            tournaments.append(tournament)
-        print(tournaments)
+            obj = Tournament.deserialize_tournament(tournament)
+            print(obj)

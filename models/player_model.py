@@ -1,6 +1,6 @@
 # player_model.py
 # Created Aug 26, 2021 at 12:00 CEST
-# Last updated Sep 08, 2021 at 16:06 CEST
+# Last Updated Sep 10, 2021 at 15:12
 
 # Standard imports
 
@@ -123,3 +123,8 @@ class Player:
     def get_players_ordered_by_name(cls, players_list):
         players_list.sort(key=lambda x: x['name'])
         return players_list
+
+    def __str__(self):
+        return ('Player: {} {} (Rank {})\nBirth date: {}\nGender: {}\n'
+                .format(self.first_name, self.name, self.rank,
+                        self.birth_date, self.gender))
