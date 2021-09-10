@@ -57,3 +57,19 @@ class Cli():
     @staticmethod
     def clear_screen():
         os.system('cls')
+
+    @staticmethod
+    def cli_entry(title):
+        view_cli = Cli(app_title=title)
+        view_cli.clear_screen()
+        view_cli.display_title()
+
+    @staticmethod
+    def cli_exit_with_delay(title):
+        exit_cli_with_delay = Cli(app_title=title)
+        exit_cli_with_delay.delay_new_screen()
+
+    @staticmethod
+    def cli_exit(title):
+        exit_cli = Cli(app_title=title)
+        exit_cli.clear_screen()

@@ -7,11 +7,10 @@
 # Third-party imports
 
 # Local imports
-from models.player_model import Player
-from models.tournament_model import Tournament
 from views.cli_view import Cli
 from views.main_menu import MainMenu
-
+from controllers.player_controller import PlayerController
+from controllers.tournament_controller import TournamentController
 
 # Other imports
 
@@ -31,104 +30,89 @@ class GameController():
 
     """Summary of Methods used in Game controller
 
-    - Methods :
-        start(self):
-            Method is used to display main menu to the user
+    - Static Methods :
+        cli_entry(app_title):
+            Method is used to manage cli (clear screen + display title)
+        cli_exit_with_delay(app_title):
+            Method is used to exit cli (delay)
+        cli_exit(app_title):
+            Method is used to exit cli
     """
 
     def start(self):
         title = self.app_title
         view_menu = MainMenu(app_title=title)
-        view_title = Cli(title)
 
-        while view_menu != 'Quit':
-            view_title.clear_screen()
-            view_title.display_title()
+        while (view_menu != 'Quit'):
+            Cli.cli_entry(title)
             menu = view_menu.main_menu()
             if (menu == 'Add a player'):
-                view_title.clear_screen()
-                view_title.display_title()
-                print("You can now add a new player in the 'players' DB.")
-                answers = view_menu.player_menu()
-                if answers['confirm']:
-                    obj = Player.deserialize_player(answers)
-                    obj.create_player()
-                view_title.delay_new_screen()
+                Cli.cli_entry(title)
+                PlayerController.player_creation_menu(None, title)
+                Cli.cli_exit_with_delay(title)
 
             elif (menu == 'Modify a player rank'):
-                view_title.clear_screen()
-                view_title.display_title()
-                print("You can now modify a player rank in 'players' DB.")
-
-                display_players = Player.load_players_db()
-
-                for player in display_players:
-                    p_name = player['name']
-                    view_menu.modify_rank_form[0]['choices'].append(p_name)
-
-                answers = view_menu.modify_rank_menu()
-
-                if answers['confirm']:
-                    test_doc_id = Player.get_player_doc_id(answers['name'])
-                    obj = Player.update_player_rank(None, answers['new_rank'],
-                                                    test_doc_id)
-                view_title.delay_new_screen()
+                Cli.cli_entry(title)
+                PlayerController.update_player_rank_menu(None, title)
+                Cli.cli_exit_with_delay(title)
 
             elif (menu == 'Add a tournament'):
-                view_title.clear_screen()
-                view_title.display_title()
-                print("Add a tournament to the 'tournaments' DB.")
-
-                display_players = Player.load_players_db()
-                view_menu.tournament_form[7]['choices'] = []
-
-                for player in display_players:
-                    view_menu.tournament_form[7]['choices'].append(
-                        {
-                            'name': "{} {}".format(player['first_name'],
-                                                   player['name'])
-                        }
-                    )
-
-                answers = view_menu.tournament_menu()
-
-                if answers['confirm']:
-                    obj = Tournament.deserialize_tournament(answers)
-                    obj.create_tournament()
-                view_title.delay_new_screen()
+                Cli.cli_entry(title)
+                TournamentController.tournament_creation_menu(None, title)
+                Cli.cli_exit_with_delay(title)
 
             elif (menu == 'Launch a tournament'):
-                view_title.clear_screen()
-                view_title.display_title()
+                Cli.cli_entry(title)
                 print("Select the tournament you wanna launch")
                 view_menu.launch_tournament_menu()
-                view_title.delay_new_screen()
+                Cli.cli_exit_with_delay(title)
 
             elif (menu == 'Display Infos'):
-                view_title.clear_screen()
-                view_title.display_title()
-                print("Display the info you wanna check")
-                display_menu = view_menu.display_infos_menu()
-                if (display_menu == 'All players'):
-                    pass
-
-                elif (display_menu == 'All tournaments'):
-                    pass
-
-                elif (display_menu == 'All players of a tournament'):
-                    pass
-
-                elif (display_menu == 'All rounds of a tournament'):
-                    pass
-
-                elif (display_menu == 'All matches of a tournament'):
-                    pass
-
-                elif (display_menu == 'Return to main menu'):
-                    view_title.clear_screen()
-                    view_title.display_title()
-                    view_menu.main_menu()
+                GameController.submenu(title)
 
             elif (menu == 'Quit'):
-                view_title.clear_screen()
+                Cli.cli_exit(title)
                 view_menu.quit_menu()
+
+    def submenu(title):
+        menus = MainMenu(app_title=title)
+        submenu = menus.display_menus_item()
+
+        if (submenu == 'Players'):
+            Cli.cli_entry(title)
+            GameController.subsubmenu(title)
+
+        elif (submenu == 'Tournaments'):
+            Cli.cli_entry(title)
+            TournamentController.display_tournaments(None)
+            GameController.subsubsubmenu(title)
+
+        elif (submenu == 'Return'):
+            Cli.cli_entry(title)
+            GameController.start()
+
+    def subsubmenu(title):
+        menus = MainMenu(app_title=title)
+        print('How do you want to display Datas?')
+        subsubmenu = menus.sort_menus_items()
+
+        if (subsubmenu == 'By alphabetical order (a -> z)'):
+            Cli.cli_entry(title)
+            PlayerController.display_aplhabetical_player(None)
+            GameController.subsubsubmenu(title)
+
+        elif (subsubmenu == 'By rank order (1 -> x)'):
+            Cli.cli_entry(title)
+            PlayerController.display_rank_player(None)
+            GameController.subsubsubmenu(title)
+
+        elif (subsubmenu == 'Return'):
+            Cli.cli_entry(title)
+            GameController.submenu(title)
+
+    def subsubsubmenu(title):
+        menus = MainMenu(app_title=title)
+        subsubsubmenu = menus.return_to_main()
+
+        if (subsubsubmenu == 'True'):
+            GameController.start()

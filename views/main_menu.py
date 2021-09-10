@@ -46,6 +46,39 @@ class MainMenu(Cli):
             },
         ]
 
+        # Secondary Menu
+        self.display_menus = [
+            {
+                'type': 'list',
+                'name': 'display_menus',
+                'message': "Here you can check all datas.",
+                'choices': ['Players', 'Tournaments',
+                            'Return']
+            },
+        ]
+
+        # Third Menu
+        self.sorted_menus_items = [
+            {
+                'type': 'list',
+                'name': 'sorted_items',
+                'message': "How do you want to display data? ",
+                'choices': ['By alphabetical order (a -> z)',
+                            'By rank order (1 -> x)',
+                            'Return']
+            },
+        ]
+
+        # Fourth Menu
+        self.return_to_main_form = [
+            {
+                'type': 'confirm',
+                'name': 'return_to_main',
+                'message': 'Do you want to return to main menu ?',
+                'default': True
+            }
+        ]
+
         # Modify Rank Form
         self.modify_rank_form = [
             {
@@ -66,6 +99,41 @@ class MainMenu(Cli):
                 'message': 'Are you sure to validate these fields ?',
                 'default': False,
             }
+        ]
+        # Player Form
+        self.player_form = [
+            {
+                'type': 'input',
+                'name': 'name',
+                'message': "last name: ",
+            },
+            {
+                'type': 'input',
+                'name': 'first_name',
+                'message': "first name: ",
+            },
+            {
+                'type': 'input',
+                'name': 'birth_date',
+                'message': "birth date: ",
+            },
+            {
+                'type': 'list',
+                'name': 'gender',
+                'message': 'gender: ',
+                'choices': ['Male', 'Female', 'Other'],
+            },
+            {
+                'type': 'input',
+                'name': 'rank',
+                'message': 'rank',
+            },
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Are you sure to validate these fields ?',
+                'default': False
+            },
         ]
 
         # Tournament From
@@ -136,40 +204,7 @@ class MainMenu(Cli):
         return answers['main_menu']
 
     def player_menu(self):
-        player_form = [
-            {
-                'type': 'input',
-                'name': 'name',
-                'message': "last name: ",
-            },
-            {
-                'type': 'input',
-                'name': 'first_name',
-                'message': "first name: ",
-            },
-            {
-                'type': 'input',
-                'name': 'birth_date',
-                'message': "birth date: ",
-            },
-            {
-                'type': 'list',
-                'name': 'gender',
-                'message': 'gender: ',
-                'choices': ['Male', 'Female', 'Other'],
-            },
-            {
-                'type': 'input',
-                'name': 'rank',
-                'message': 'rank',
-            },
-            {
-                'type': 'confirm',
-                'name': 'confirm',
-                'message': 'Are you sure to validate these fields ?',
-                'default': False
-            },
-        ]
+        player_form = self.player_form
         answers = prompt(player_form, style=self.style)
         return answers
 
@@ -195,22 +230,20 @@ class MainMenu(Cli):
         answers = prompt(launch_form, style=self.style)
         return answers
 
-    def display_infos_menu(self):
-        display_infos_form = [
-            {
-                'type': 'list',
-                'name': 'display_infos',
-                'message': 'Select your option to display',
-                'choices': ["All players",
-                            "All tournaments",
-                            "All players of a tournament",
-                            "All rounds of a tournament",
-                            "All matches of a tournament",
-                            "Return to main menu", ]
-            }
-        ]
-        answers = prompt(display_infos_form, style=self.style)
-        return answers
+    def display_menus_item(self):
+        display_menus = self.display_menus
+        answers = prompt(display_menus, style=self.style)
+        return answers['display_menus']
+
+    def sort_menus_items(self):
+        sorted_menus = self.sorted_menus_items
+        answers = prompt(sorted_menus, style=self.style)
+        return answers['sorted_items']
+
+    def return_to_main(self):
+        return_to_main_form = self.return_to_main_form
+        answers = prompt(return_to_main_form, style=self.style)
+        return answers['return_to_main']
 
     def quit_menu(self):
         exit()
