@@ -1,6 +1,6 @@
 # player_controller.py
 # Created Sep 10, 2021 at 10:00
-# Last Updated Sep 10, 2021 at 15:12
+# Last Updated Sep 13, 2021 at 15:12
 
 # Standard imports
 
@@ -8,7 +8,7 @@
 
 # Local imports
 from models.player_model import Player
-from views.main_menu import MainMenu
+from views.menu import Menu
 
 # Other imports
 
@@ -28,7 +28,7 @@ class PlayerController():
     """
 
     def player_creation_menu(self, title):
-        player_menu = MainMenu(app_title=title)
+        player_menu = Menu(app_title=title)
         print("You can now add a new player in the 'players' DB.")
         answers = player_menu.player_menu()
         if answers['confirm']:
@@ -36,7 +36,7 @@ class PlayerController():
             obj.create_player()
 
     def update_player_rank_menu(self, title):
-        update_rank = MainMenu(app_title=(title))
+        update_rank = Menu(app_title=(title))
         print("You can now modify a player rank in 'players' DB.")
 
         # Append Choices with Players list

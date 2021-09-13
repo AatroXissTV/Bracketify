@@ -1,6 +1,6 @@
-# main_menu.py
+# menu.py
 # Created Sep 03, 2021 at 14:42
-# Last updated Sep 08, 2021 at 16:07
+# Last updated Sep 13, 2021 at 09:24
 
 # Standard imports
 
@@ -14,11 +14,11 @@ from views.cli_view import Cli
 # Other imports
 
 
-class MainMenu(Cli):
-    """Represents the menu of Bracketify.
+class Menu(Cli):
+    """Represents the menus of Bracketify.
 
     - Heritage :
-        MainMenu class herits from Cli.
+        Menu class herits from Cli.
     """
     def __init__(self, app_title):
         super().__init__(app_title)
@@ -31,7 +31,7 @@ class MainMenu(Cli):
             Token.Pointer: '#08A696 bold',
         })
 
-        # Main Menu
+        # MAIN MENU
         self.main_menu_form = [
             {
                 'type': 'list',
@@ -46,7 +46,7 @@ class MainMenu(Cli):
             },
         ]
 
-        # Secondary Menu
+        # DISPLAY SUBMENU
         self.display_menus = [
             {
                 'type': 'list',
@@ -57,7 +57,7 @@ class MainMenu(Cli):
             },
         ]
 
-        # Third Menu
+        # ORDER SUBMENU
         self.sorted_menus_items = [
             {
                 'type': 'list',
@@ -69,7 +69,7 @@ class MainMenu(Cli):
             },
         ]
 
-        # Fourth Menu
+        # RETURN MENU
         self.return_to_main_form = [
             {
                 'type': 'confirm',
@@ -100,6 +100,7 @@ class MainMenu(Cli):
                 'default': False,
             }
         ]
+
         # Player Form
         self.player_form = [
             {
@@ -193,9 +194,57 @@ class MainMenu(Cli):
             }
         ]
 
-    """Methods used MainMenu class
+        # Launch form
+        self.launch = [
+            {
+                'type': 'list',
+                'name': 'selected_t',
+                'message': 'Select the tournament.',
+                'choices': [],
+            },
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Are you sure to validate these fields ?',
+                'default': False,
+            }
+        ]
 
-    - Method :
+    """Methods used Menu class
+
+    - Methods :
+        main_menu(self):
+            This method is used to prompt main menu form to the user.
+            Return a dict() with the result.
+            This dict is then used by the controller to know where the user
+            wants to navigate.
+
+        player_menu(self):
+            This method is used to prompt the player menu form to the user.
+
+        modify_rank_menu(self):
+            This method is used to prompt the modify rank form to the user.
+
+        tournament_menu(self):
+            This method is used to prompt the tournament form to the user
+
+        launch_tournament_menu(self):
+            This method is used to prompt the tournament form to the user
+
+        display_menus_item(self):
+            This method is used to prompt display menu to the user
+            Return a dict() with the results
+            This dict is then used by the controller to know what the user
+            wants to do.
+
+        sort_menus_item(self):
+            This method is used to prompt sort menu to the user
+            Return a dict() with the results
+            This dict is then used by the controller to know how the user
+            wants to order the datas.
+
+        quit_menu(self):
+            This method is used to close the app.
     """
 
     def main_menu(self):
@@ -219,14 +268,7 @@ class MainMenu(Cli):
         return answers
 
     def launch_tournament_menu(self):
-        launch_form = [
-            {
-                'type': 'list',
-                'name': 'tournaments_list',
-                'message': "Select the tournament to launch",
-                'choices': [],
-            }
-        ]
+        launch_form = self.launch
         answers = prompt(launch_form, style=self.style)
         return answers
 

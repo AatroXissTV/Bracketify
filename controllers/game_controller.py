@@ -1,6 +1,6 @@
 # game_controller.py
-# Created Sep 07, 2021 at 11:19
-# Last Updated Sep 10, 2021 at 15:12
+# Created Sep 07, 2021 at 11:19 CEST
+# Last Updated Sep 13, 2021 at 09:26 CEST
 
 # Standard imports
 
@@ -8,7 +8,7 @@
 
 # Local imports
 from views.cli_view import Cli
-from views.main_menu import MainMenu
+from views.menu import Menu
 from controllers.player_controller import PlayerController
 from controllers.tournament_controller import TournamentController
 
@@ -17,6 +17,9 @@ from controllers.tournament_controller import TournamentController
 
 class GameController():
     """Represents the game controller
+
+    This controller manages the menu logic
+    and calls each dedicated controllers when needed.
     """
 
     def __init__(self, app_title):
@@ -24,96 +27,125 @@ class GameController():
 
         - Args:
             app_title
-                Used to retrieve app name.
+                Used to retrieve app name from main.py
         """
+
         self.app_title = app_title
 
     """Summary of Methods used in Game controller
 
-    - Static Methods :
-        cli_entry(app_title):
-            Method is used to manage cli (clear screen + display title)
-        cli_exit_with_delay(app_title):
-            Method is used to exit cli (delay)
-        cli_exit(app_title):
-            Method is used to exit cli
+    - Methods :
+        start(self):
+            This method represents the main menu of the programm.
+
+                Calls:
+                It calls other methods within GameController
+                to navigate between submenus.
+
+                For each menu it calls the appropriate controller.
+                -> PlayerController -> Everything related to players.
+                -> TournamentController -> Everything related to tournaments.
+
+        display_submenu(title):
+            This method is used to manage submenu for the display options.
+
+                Calls :
+                For each menu item it calls the appropriate controller.
+                -> PlayerController
+                -> TournamentController
+
+        order_submenu(title):
+            This method is used to manage order in displays for
+            tournaments and players.
+
+        return_submenu(title):
+            This method is used to manage return to main submenu
+            after displaying datas
     """
+
+    # Starting MAIN MENU
 
     def start(self):
         title = self.app_title
-        view_menu = MainMenu(app_title=title)
+        view_menu = Menu(app_title=title)
 
         while (view_menu != 'Quit'):
             Cli.cli_entry(title)
             menu = view_menu.main_menu()
+
             if (menu == 'Add a player'):
                 Cli.cli_entry(title)
                 PlayerController.player_creation_menu(None, title)
-                Cli.cli_exit_with_delay(title)
+                Cli.cli_delay()
 
             elif (menu == 'Modify a player rank'):
                 Cli.cli_entry(title)
                 PlayerController.update_player_rank_menu(None, title)
-                Cli.cli_exit_with_delay(title)
+                Cli.cli_delay()
 
             elif (menu == 'Add a tournament'):
                 Cli.cli_entry(title)
                 TournamentController.tournament_creation_menu(None, title)
-                Cli.cli_exit_with_delay(title)
+                Cli.cli_delay()
 
             elif (menu == 'Launch a tournament'):
                 Cli.cli_entry(title)
-                print("Select the tournament you wanna launch")
-                view_menu.launch_tournament_menu()
-                Cli.cli_exit_with_delay(title)
+                TournamentController.launch_tournament(None, title)
+                Cli.cli_delay()
 
             elif (menu == 'Display Infos'):
-                GameController.submenu(title)
+                GameController.display_submenu(title)
 
             elif (menu == 'Quit'):
-                Cli.cli_exit(title)
+                Cli.clear_screen()
                 view_menu.quit_menu()
 
-    def submenu(title):
-        menus = MainMenu(app_title=title)
-        submenu = menus.display_menus_item()
+    # DISPLAY SUBMENU
 
-        if (submenu == 'Players'):
+    def display_submenu(title):
+        menus = Menu(app_title=title)
+        display_submenu = menus.display_menus_item()
+
+        if (display_submenu == 'Players'):
             Cli.cli_entry(title)
-            GameController.subsubmenu(title)
+            GameController.order_submenu(title)
 
-        elif (submenu == 'Tournaments'):
+        elif (display_submenu == 'Tournaments'):
             Cli.cli_entry(title)
             TournamentController.display_tournaments(None)
-            GameController.subsubsubmenu(title)
+            GameController.return_submenu(title)
 
-        elif (submenu == 'Return'):
+        elif (display_submenu == 'Return'):
             Cli.cli_entry(title)
-            GameController.start()
+            GameController(title)
 
-    def subsubmenu(title):
-        menus = MainMenu(app_title=title)
+    # ORDER SUBMENU
+
+    def order_submenu(title):
+        menus = Menu(app_title=title)
         print('How do you want to display Datas?')
-        subsubmenu = menus.sort_menus_items()
+        order_submenu = menus.sort_menus_items()
 
-        if (subsubmenu == 'By alphabetical order (a -> z)'):
+        if (order_submenu == 'By alphabetical order (a -> z)'):
             Cli.cli_entry(title)
             PlayerController.display_aplhabetical_player(None)
-            GameController.subsubsubmenu(title)
+            GameController.return_submenu(title)
 
-        elif (subsubmenu == 'By rank order (1 -> x)'):
+        elif (order_submenu == 'By rank order (1 -> x)'):
             Cli.cli_entry(title)
             PlayerController.display_rank_player(None)
-            GameController.subsubsubmenu(title)
+            GameController.return_submenu(title)
 
-        elif (subsubmenu == 'Return'):
+        elif (order_submenu == 'Return'):
             Cli.cli_entry(title)
-            GameController.submenu(title)
+            GameController.order_submenu(title)
 
-    def subsubsubmenu(title):
-        menus = MainMenu(app_title=title)
+    # RETURN TO MAIN SUBMENU
+
+    def return_submenu(title):
+        menus = Menu(app_title=title)
         subsubsubmenu = menus.return_to_main()
 
         if (subsubsubmenu == 'True'):
-            Cli.cli_exit(title)
-            GameController.start()
+            Cli.clear_screen(title)
+            GameController(title)

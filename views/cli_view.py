@@ -1,6 +1,6 @@
 # cli_view.py
 # Created Aug 31, 2021 at 15:37 CEST
-# Last updated Sep 06, 2021 at 10:25 CEST
+# Last updated Sep 13, 2021 at 15:25 CEST
 
 # Standard imports
 import os
@@ -37,6 +37,12 @@ class Cli():
             Used to display app title/
 
     - StaticMethods:
+
+        cli_entry(title):
+            This method is used when a new menu/page is displayed.
+            It uses previous functions to make it one.
+            clear screen and then display title
+
         delay_new_screen():
             Used to delay the transition between 2 screens.
 
@@ -48,7 +54,13 @@ class Cli():
         print("{}\n".format(self.app_title_font.renderText(self.app_title)))
 
     @staticmethod
-    def delay_new_screen(delay=5, delay_end=1):
+    def cli_entry(title):
+        view_cli = Cli(app_title=title)
+        view_cli.clear_screen()
+        view_cli.display_title()
+
+    @staticmethod
+    def cli_delay(delay=5, delay_end=1):
         print("Wait...")
         sleep(delay)
         print("Done.")
@@ -57,19 +69,3 @@ class Cli():
     @staticmethod
     def clear_screen():
         os.system('cls')
-
-    @staticmethod
-    def cli_entry(title):
-        view_cli = Cli(app_title=title)
-        view_cli.clear_screen()
-        view_cli.display_title()
-
-    @staticmethod
-    def cli_exit_with_delay(title):
-        exit_cli_with_delay = Cli(app_title=title)
-        exit_cli_with_delay.delay_new_screen()
-
-    @staticmethod
-    def cli_exit(title):
-        exit_cli = Cli(app_title=title)
-        exit_cli.clear_screen()

@@ -1,11 +1,12 @@
 # tournament_model.py
 # Created Aug 26, 2021 at 12:13 CEST
-# Last Updated Sep 10, 2021 at 15:12
+# Last Updated Sep 13, 2021 at 15:12
 
 # Standard imports
 
 # Third-party imports
 from tinydb import TinyDB
+from tinydb.queries import where
 
 # Local imports
 
@@ -105,6 +106,11 @@ class Tournament:
         for tournament in db_tournaments.all():
             tournaments_list.append(tournament)
         return tournaments_list
+
+    @classmethod
+    def get_tournament_w_name(cls, name):
+        for tournament in db_tournaments.search(where('name') == name):
+            return tournament
 
     def __str__(self) -> str:
         return ("Name: {}\nLocation: {}\nDate {} - {}\nRounds Number: {}\n"

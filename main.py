@@ -1,6 +1,6 @@
 # Entry Point
 # Created Sep 03, 2021 at 14:24 CEST
-# Last updated Sep 09, 2021 at 16:07 CEST
+# Last updated Sep 13, 2021 at 15:11 CEST
 
 # Standard imports
 
@@ -14,6 +14,9 @@ from controllers.game_controller import GameController
 
 def main():
     """Entry Point
+
+    Initialize GameController and call start().
+    Uses app name in parameter
     """
 
     launch = GameController("Bracketify")
