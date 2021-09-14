@@ -115,6 +115,11 @@ class Player:
             return player_doc_id
 
     @classmethod
+    def get_player_with_doc_id(cls, doc_id):
+        player = db_players.get(doc_id=doc_id)
+        return player
+
+    @classmethod
     def get_players_ordered_by_rank(cls, players_list):
         players_list.sort(key=lambda x: x['rank'])
         return players_list

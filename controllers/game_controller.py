@@ -85,7 +85,7 @@ class GameController():
 
             elif (menu == 'Add a tournament'):
                 Cli.cli_entry(title)
-                TournamentController.tournament_creation_menu(None, title)
+                TournamentController.create_tournament(None, title)
                 Cli.cli_delay()
 
             elif (menu == 'Launch a tournament'):

@@ -1,6 +1,6 @@
 # tournament_controller.py
 # Created Sep 10, 2021 at 11:10
-# Last Updated Sep 13, 2021 at 15:12
+# Last Updated Sep 14, 2021 at 10:28
 
 # Standrad imports
 
@@ -17,29 +17,35 @@ class TournamentController():
     """ Summary of Methods used in Tournament Controller
 
     - Methods :
-        tournament_creation_menu(self, title)
-            This method is used to manage tournament creation menu.
+        create_tournament(self, title)
+            This method is used to manage creation of tournaments.
             Display menu, manage answers &
             save the tournaments in 'tournaments' DB.
     """
 
-    def tournament_creation_menu(self, title):
+    def create_tournament(self, title):
         tournament_menu = Menu(app_title=title)
         print("Add a tournament to the 'tournaments' DB.")
 
         # Append choices with players list
         display_p = Player.load_players_db()
-        tournament_menu.tournament_form[7]['choices'] = []
+
         for player in display_p:
+
+            # Value is DOC ID of a player
+            doc_id = Player.get_player_doc_id(player['name'])
+
             tournament_menu.tournament_form[7]['choices'].append(
                 {
-                    'name': "{} {} (rank {})".format(player['first_name'],
+                    'key': 'd',
+                    'name': '{} {} (rank {})'.format(player['first_name'],
                                                      player['name'],
-                                                     player['rank'])
+                                                     player['rank']),
+                    'value': doc_id,
                 },
             )
 
-        # Display form + saves it in DB
+        # prompt form + saves it in DB
         answers = tournament_menu.tournament_menu()
         if answers['confirm']:
             obj = Tournament.deserialize_tournament(answers)
@@ -54,7 +60,7 @@ class TournamentController():
 
     def launch_tournament(self, title):
         launch = Menu(app_title=(title))
-        print("You can now modify a player rank in 'players' DB.")
+        print("Launch a tournament.")
 
         # Append Choices with tournaments list
         display_t = Tournament.load_tournaments_db()
@@ -64,6 +70,5 @@ class TournamentController():
         # Getting Player doc_id
         answers = launch.launch_tournament_menu()
         if answers['confirm']:
-            obj = Tournament.get_tournament_w_name(answers['selected_t'])
-            print(obj)
-            return obj
+            t = Tournament.get_tournament_w_name(answers['selected_t'])
+            return t
