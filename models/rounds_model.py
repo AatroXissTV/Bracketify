@@ -68,12 +68,15 @@ class Round:
         self.name = "Round {}".format(self.round_number)
         return self.name
 
-    def start_round(self):
-        self.start_time = d.now().strftime("%d/%m/%Y, %H:%M:%S")
-        return self.start_time
+    @classmethod
+    def start_round(cls):
+        start_time = d.now().strftime("%d/%m/%Y, %H:%M:%S")
+        return start_time
 
-    def end_round(self):
-        self.end_time = d.now().strftime("%d/%m/%Y, %H:%M:%S")
+    @classmethod
+    def end_round(cls):
+        end_time = d.now().strftime("%d/%m/%Y, %H:%M:%S")
+        return end_time
 
     @classmethod
     def deserialize_round(cls, data):

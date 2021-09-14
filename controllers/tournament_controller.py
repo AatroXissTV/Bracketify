@@ -5,6 +5,8 @@
 # Standrad imports
 
 # local imports
+from models.rounds_model import Round
+from models.match_model import Match
 from models.player_model import Player
 from models.tournament_model import Tournament
 from views.menu import Menu
@@ -67,8 +69,37 @@ class TournamentController():
         for tournament in display_t:
             launch.launch[0]['choices'].append(tournament['name'])
 
-        # Getting Player doc_id
         answers = launch.launch_tournament_menu()
+
         if answers['confirm']:
             t = Tournament.get_tournament_w_name(answers['selected_t'])
-            return t
+            i = t['players_list']
+            player_list = []
+            for player in i:
+                test = Player.get_player_with_doc_id(player)
+                player_list.append(test)
+            display_rank_p = Player.get_players_ordered_by_rank(player_list)
+
+            length = len(display_rank_p)
+            middle_index = length//2
+
+            first_half = display_rank_p[:middle_index]
+            second_half = display_rank_p[middle_index:]
+
+            print("Generating matches for the first round...")
+            matches_list = []
+            for i in range(middle_index):
+                test = Match(first_half[i]['first_name'],
+                             second_half[i]['first_name'])
+                print(test)
+                serialized = test.serialize_match()
+                matches_list.append(serialized)
+
+            start_time = Round.start_round()
+            test2 = Round("Round", 1, matches_list, start_time)
+            print(test2)
+
+            print("Who won the first match ?")
+            matches_list[0]
+            testencore = test.match_results("0")
+            print(testencore)

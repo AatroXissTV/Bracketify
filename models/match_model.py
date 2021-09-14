@@ -42,6 +42,14 @@ class Match:
             Method is used to cast infos of match into a str.
     """
 
+    def serialize_match(self):
+        return {
+            'p_one': self.p_one,
+            'p_two': self.p_two,
+            'p_one_score': self.p_one_score,
+            'p_two_score': self.p_two_score
+        }
+
     def match_results(self, winner):
         if winner == "0":
             self.p_one_score = 0.5
@@ -59,7 +67,7 @@ class Match:
         return self.match_tuple
 
     def __str__(self):
-        return('{} ({}) VS {} ({})').format(self.p_one,
-                                            self.p_one_score,
-                                            self.p_two,
-                                            self.p_two_score)
+        return('P1: {} ({}) VS P2: {} ({})').format(self.p_one,
+                                                    self.p_one_score,
+                                                    self.p_two,
+                                                    self.p_two_score)
