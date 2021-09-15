@@ -1,15 +1,16 @@
 # tournament_controller.py
 # Created Sep 10, 2021 at 11:10
-# Last Updated Sep 15, 2021 at 14:13
+# Last Updated Sep 15, 2021 at 15:11
 
 # Standrad imports
 
 # local imports
+from views.cli_view import Cli
 from models.rounds_model import Round
-from models.match_model import Match
 from models.player_model import Player
 from models.tournament_model import Tournament
 from views.menu import Menu
+from controllers.round_controller import RoundController
 
 # Other imports
 
@@ -92,65 +93,24 @@ class TournamentController():
         answers = launch.launch_tournament_menu()
 
         if answers['confirm']:
-            t = Tournament.get_tournament_w_name(answers['selected_t'])
-            i = t['players_list']
-            player_list = []
-            for player in i:
-                test = Player.get_player_with_doc_id(player)
-                player_list.append(test)
-            display_rank_p = Player.get_players_ordered_by_rank(player_list)
+            Cli.cli_entry(title)
+            p_sorted = RoundController.get_players_round(answers['selected_t'])
+            middle_index = RoundController.middle_index_players_list(p_sorted)
+            first_half = RoundController.split_first_half_p(p_sorted,
+                                                            middle_index)
+            second_half = RoundController.split_second_half_p(p_sorted,
+                                                              middle_index)
+            mm_round = RoundController.mm_first_round(middle_index,
+                                                      first_half,
+                                                      second_half)
+            Cli.cli_delay()
 
-            length = len(display_rank_p)
-            middle_index = length//2
-
-            first_half = display_rank_p[:middle_index]
-            second_half = display_rank_p[middle_index:]
-
-            print("Generating matches for the first round...")
-
-            print("La liste des matchs est :")
-            matches_list = []
-            for i in range(middle_index):
-                test = Match(first_half[i]['first_name'],
-                             second_half[i]['first_name'])
-                print(test)
-                serialized = test.serialize_match()
-                matches_list.append(serialized)
-            print("---------------------------")
-
-            print("Do you want to start the first round?")
+            Cli.cli_entry(title)
             start_time = Round.start_round()
-
-            print("---------------------------")
-
-            print("Who won the match?")
-            match_tuple = []
-            for i in range(middle_index):
-                match = Match(matches_list[i]['p_one'],
-                              matches_list[i]['p_two'],
-                              matches_list[i]['p_one_score'],
-                              matches_list[i]['p_two_score'])
-                print(match)
-                menu = launch.ask_winner()
-
-                if (menu == "0"):
-                    match.match_results("0")
-                    print(match)
-
-                elif (menu == "1"):
-                    match.match_results("1")
-                    print(match)
-
-                elif (menu == "2"):
-                    match.match_results("2")
-                    print(match)
-
-                tuple = match.create_match_tuple()
-                match_tuple.append(tuple)
-
-            print("---------------------------")
-            print("Ending round")
-            end_time = Round.end_round()
-
-            test2 = Round("Round", 1, match_tuple, start_time, end_time)
-            print(test2.serialize_round())
+            match_tuple = RoundController.ask_winner(title,
+                                                     mm_round,
+                                                     middle_index)
+            Cli.cli_delay()
+            Cli.cli_entry(title)
+            end = RoundController.end_first_round(start_time, match_tuple)
+            print(end)
