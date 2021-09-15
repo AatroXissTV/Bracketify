@@ -1,6 +1,6 @@
 # menu.py
 # Created Sep 03, 2021 at 14:42
-# Last updated Sep 13, 2021 at 09:24
+# Last updated Sep 15, 2021 at 14:14
 
 # Standard imports
 
@@ -53,7 +53,7 @@ class Menu(Cli):
                 'name': 'display_menus',
                 'message': "Here you can check all datas.",
                 'choices': ['Players', 'Tournaments',
-                            'Return']
+                            'Players in tournaments', 'Return']
             },
         ]
 

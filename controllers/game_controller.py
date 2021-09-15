@@ -1,12 +1,13 @@
 # game_controller.py
 # Created Sep 07, 2021 at 11:19 CEST
-# Last Updated Sep 13, 2021 at 09:26 CEST
+# Last Updated Sep 15, 2021 at 14:00 CEST
 
 # Standard imports
 
 # Third-party imports
 
 # Local imports
+from models.player_model import Player
 from views.cli_view import Cli
 from views.menu import Menu
 from controllers.player_controller import PlayerController
@@ -108,11 +109,19 @@ class GameController():
 
         if (display_submenu == 'Players'):
             Cli.cli_entry(title)
-            GameController.order_submenu(title)
+            players_list = Player.load_players_db()
+            GameController.order_submenu(title, players_list)
 
         elif (display_submenu == 'Tournaments'):
             Cli.cli_entry(title)
             TournamentController.display_tournaments(None)
+            GameController.return_submenu(title)
+
+        elif (display_submenu == 'Players in tournaments'):
+            Cli.cli_entry(title)
+            p_list = TournamentController.display_player_in_t(None, title)
+            Cli.cli_entry(title)
+            GameController.order_submenu(title, p_list)
             GameController.return_submenu(title)
 
         elif (display_submenu == 'Return'):
@@ -121,19 +130,18 @@ class GameController():
 
     # ORDER SUBMENU
 
-    def order_submenu(title):
+    def order_submenu(title, players_list):
         menus = Menu(app_title=title)
-        print('How do you want to display Datas?')
         order_submenu = menus.sort_menus_items()
 
         if (order_submenu == 'By alphabetical order (a -> z)'):
             Cli.cli_entry(title)
-            PlayerController.display_aplhabetical_player(None)
+            PlayerController.display_aplhabetical_player(None, players_list)
             GameController.return_submenu(title)
 
         elif (order_submenu == 'By rank order (1 -> x)'):
             Cli.cli_entry(title)
-            PlayerController.display_rank_player(None)
+            PlayerController.display_rank_player(None, players_list)
             GameController.return_submenu(title)
 
         elif (order_submenu == 'Return'):

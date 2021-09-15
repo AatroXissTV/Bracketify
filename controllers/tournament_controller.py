@@ -1,6 +1,6 @@
 # tournament_controller.py
 # Created Sep 10, 2021 at 11:10
-# Last Updated Sep 14, 2021 at 10:28
+# Last Updated Sep 15, 2021 at 14:13
 
 # Standrad imports
 
@@ -59,6 +59,26 @@ class TournamentController():
         for tournament in tournaments_list:
             obj = Tournament.deserialize_tournament(tournament)
             print(obj)
+
+    def display_player_in_t(self, title):
+        launch = Menu(app_title=title)
+        print("Select a tournament")
+
+        # Append choices with tournaments_list
+        display_t = Tournament.load_tournaments_db()
+        for tournament in display_t:
+            launch.launch[0]['choices'].append(tournament['name'])
+
+        answers = launch.launch_tournament_menu()
+
+        if answers['confirm']:
+            t = Tournament.get_tournament_w_name(answers['selected_t'])
+            i = t['players_list']
+            players_list = []
+            for docid in i:
+                test = Player.get_player_with_doc_id(docid)
+                players_list.append(test)
+            return players_list
 
     def launch_tournament(self, title):
         launch = Menu(app_title=(title))
