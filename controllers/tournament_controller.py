@@ -54,7 +54,7 @@ class TournamentController():
             obj.create_tournament()
 
     def display_tournaments(self):
-        print("List of tournaments sorted in alphabetical order")
+        print("List of tournaments")
         tournaments_list = Tournament.load_tournaments_db()
         for tournament in tournaments_list:
             obj = Tournament.deserialize_tournament(tournament)
@@ -87,6 +87,8 @@ class TournamentController():
             second_half = display_rank_p[middle_index:]
 
             print("Generating matches for the first round...")
+
+            print("La liste des matchs est :")
             matches_list = []
             for i in range(middle_index):
                 test = Match(first_half[i]['first_name'],
@@ -94,12 +96,41 @@ class TournamentController():
                 print(test)
                 serialized = test.serialize_match()
                 matches_list.append(serialized)
+            print("---------------------------")
 
+            print("Do you want to start the first round?")
             start_time = Round.start_round()
-            test2 = Round("Round", 1, matches_list, start_time)
-            print(test2)
 
-            print("Who won the first match ?")
-            matches_list[0]
-            testencore = test.match_results("0")
-            print(testencore)
+            print("---------------------------")
+
+            print("Who won the match?")
+            match_tuple = []
+            for i in range(middle_index):
+                match = Match(matches_list[i]['p_one'],
+                              matches_list[i]['p_two'],
+                              matches_list[i]['p_one_score'],
+                              matches_list[i]['p_two_score'])
+                print(match)
+                menu = launch.ask_winner()
+
+                if (menu == "0"):
+                    match.match_results("0")
+                    print(match)
+
+                elif (menu == "1"):
+                    match.match_results("1")
+                    print(match)
+
+                elif (menu == "2"):
+                    match.match_results("2")
+                    print(match)
+
+                tuple = match.create_match_tuple()
+                match_tuple.append(tuple)
+
+            print("---------------------------")
+            print("Ending round")
+            end_time = Round.end_round()
+
+            test2 = Round("Round", 1, match_tuple, start_time, end_time)
+            print(test2.serialize_round())

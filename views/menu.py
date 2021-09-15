@@ -210,6 +210,22 @@ class Menu(Cli):
             }
         ]
 
+        # Who won form
+        self.ask_winner_form = [
+            {
+                'type': 'list',
+                'name': 'ask_winner',
+                'message': "Select Winner (tie = 0, P1 = 1, P2 = 2)",
+                'choices': ['0', '1', '2']
+            },
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Are you sure to validate these fields ?',
+                'default': False,
+            }
+        ]
+
     """Methods used Menu class
 
     - Methods :
@@ -271,6 +287,11 @@ class Menu(Cli):
         launch_form = self.launch
         answers = prompt(launch_form, style=self.style)
         return answers
+
+    def ask_winner(self):
+        ask_winner = self.ask_winner_form
+        answers = prompt(ask_winner, style=self.style)
+        return answers['ask_winner']
 
     def display_menus_item(self):
         display_menus = self.display_menus
