@@ -1,6 +1,6 @@
 # cli_view.py
 # Created Aug 31, 2021 at 15:37 CEST
-# Last updated Sep 13, 2021 at 15:25 CEST
+# Last updated Sep 16, 2021 at 14:36 CEST
 
 # Standard imports
 import os
@@ -37,7 +37,6 @@ class Cli():
             Used to display app title/
 
     - StaticMethods:
-
         cli_entry(title):
             This method is used when a new menu/page is displayed.
             It uses previous functions to make it one.
@@ -50,8 +49,12 @@ class Cli():
             Used to clear screen when navigating between menus.
     """
 
+    # Methods
+
     def display_title(self) -> str:
         print("{}\n".format(self.app_title_font.renderText(self.app_title)))
+
+    # Static Methods
 
     @staticmethod
     def cli_entry(title):

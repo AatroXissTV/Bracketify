@@ -36,14 +36,12 @@ Then run the following commands:
 
 ## Updates
 
-This is a beta version of Bracketify and things are not working as expected.
-Files are structured with MVC but critical features are missing such as views and controllers. 
-Models are not completed yet and work has to be done on every model to ensure everything is working as intended. 
+Hello everyone, this is a dev version of Bracketify. 
+I'm currently working on it so things might not working as intended. 
 
-First version of Views have been implementend. 
-They are not connected with anything.
+Files are structured with MVC but critical feature are missing. 
 
-Updates on Models and first version of controllers are due by the end of the week
+First verson of app is expected to be delivered at the end of next week (22/09/2021)
 
 You can consult the project management board if you want accurate tracking of progress! 
 

@@ -1,15 +1,20 @@
 # rounds_model.py
 # Created Aug 27, 2021 at 10:10 CEST
-# Last updated Sep 07, 2021 at 10:46 CEST
+# Last updated Sep 16, 2021 at 10:30 CEST
 
 # Standard imports
 from datetime import datetime as d
 
+
 # Third-party imports
+from tinydb import TinyDB
 
 # Local imports
+from models.match_model import Match
 
 # Other imports
+db = TinyDB('database/bracketify.json')
+db_rounds = db.table('Rounds')
 
 
 class Round:
@@ -64,9 +69,57 @@ class Round:
             'end time': self.end_time,
         }
 
-    def round_name(self):
-        self.name = "Round {}".format(self.round_number)
-        return self.name
+    def create_round(self):
+        serialized_round = self.serialize_round()
+        round_doc_id = db_rounds.insert(serialized_round)
+        return round_doc_id
+
+    @classmethod
+    def round_name(cls, round_name):
+        name = "Round {}".format(round_name)
+        return name
+
+    @classmethod
+    def load_round_db(cls):
+        rounds_list = []
+        for round in db_rounds.all():
+            rounds_list.append(round)
+        return rounds_list
+
+    @classmethod
+    def get_round_with_doc_id(cls, doc_id):
+        round = db_rounds.get(doc_id=doc_id)
+        return round
+
+    @classmethod
+    def mm_first_round(cls, middle_index, first_half, second_half):
+
+        print("Generating matches for the first round")
+        matches_list = []
+
+        for i in range(middle_index):
+            match = Match(first_half[i]['first_name'],
+                          second_half[i]['first_name'])
+            print(match)
+            serialize_match = match.serialize_match()
+            matches_list.append(serialize_match)
+        return matches_list
+
+    @classmethod
+    def middle_index_players_list(cls, players_in_round):
+        length = len(players_in_round)
+        middle_index = length//2
+        return middle_index
+
+    @classmethod
+    def split_first_half(cls, players_in_round, middle_index):
+        first_half = players_in_round[:middle_index]
+        return first_half
+
+    @classmethod
+    def split_second_half(cls, players_in_round, middle_index):
+        second_half = players_in_round[middle_index:]
+        return second_half
 
     @classmethod
     def start_round(cls):

@@ -1,16 +1,13 @@
 # round_controller.py
 # Created Sep 13, 2021 at 15:00
-# Last Updated Sep 15, 2021 at 15:11
+# Last Updated Sep 16, 2021 at 10:29
 
 # Standard imports
 
 # Local imports
-from views.cli_view import Cli
 from models.rounds_model import Round
-from views.menu import Menu
 from models.tournament_model import Tournament
 from models.player_model import Player
-from models.match_model import Match
 
 # Other imports
 
@@ -28,60 +25,34 @@ class RoundController():
         order_players_rank = Player.get_players_ordered_by_rank(players_list)
         return order_players_rank
 
-    def middle_index_players_list(players_in_round):
-        length = len(players_in_round)
-        middle_index = length//2
+    def get_numb_rounds(tournaments_list):
+        t = Tournament.get_tournament_w_name(tournaments_list)
+        numb_of_rounds = t['rounds_number']
+        return numb_of_rounds
+
+    def get_middle_index(players_in_round):
+        middle_index = Round.middle_index_players_list(players_in_round)
         return middle_index
 
-    def split_first_half_p(players_in_round, middle_index):
-        first_half = players_in_round[:middle_index]
-        return first_half
+    def mm_first_round(players_in_round, middle_index):
+        first_half = Round.split_first_half(players_in_round, middle_index)
+        second_half = Round.split_second_half(players_in_round, middle_index)
 
-    def split_second_half_p(players_in_round, middle_index):
-        second_half = players_in_round[middle_index:]
-        return second_half
-
-    def mm_first_round(middle_index, first_half, second_half):
-
-        print("Generating Matches for the first round")
-        matches_list = []
-
-        for i in range(middle_index):
-            match = Match(first_half[i]['first_name'],
-                          second_half[i]['first_name'])
-            print(match)
-            serialize_match = match.serialize_match()
-            matches_list.append(serialize_match)
+        matches_list = Round.mm_first_round(middle_index,
+                                            first_half,
+                                            second_half)
         return matches_list
 
-    def ask_winner(title, matches_list, middle_index):
-        print("Enter the winner of the round")
-        matches_tuple = []
-        for i in range(middle_index):
-            Cli.cli_entry(title)
-            match = Match(matches_list[i]['p_one'],
-                          matches_list[i]['p_two'],
-                          matches_list[i]['p_one_score'],
-                          matches_list[i]['p_two_score'])
-            print(match)
-            menu = Menu(app_title=title)
-            ask_winner_menu = menu.ask_winner()
+    def create_round(matches_list, round_number):
+        round_name = Round.round_name(round_number)
+        start_time = Round.start_round()
+        round = Round(round_name, 1, matches_list, start_time)
+        round_doc_id = Round.create_round(round)
+        return round_doc_id
 
-            if (ask_winner_menu == "0"):
-                match.match_results("0")
-                print(match)
-
-            elif (ask_winner_menu == "1"):
-                match.match_results("1")
-                print(match)
-
-            elif (ask_winner_menu == "2"):
-                match.match_results("2")
-                print(match)
-
-            tuple = match.create_match_tuple()
-            matches_tuple.append(tuple)
-        return matches_tuple
+    def get_round_with_doc_id(round_doc_id):
+        round = Round.get_round_with_doc_id(round_doc_id)
+        return round
 
     def end_first_round(start_time, matches_results):
         end_time = Round.end_round()

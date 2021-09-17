@@ -1,6 +1,6 @@
 # menu.py
 # Created Sep 03, 2021 at 14:42
-# Last updated Sep 15, 2021 at 14:14
+# Last updated Sep 16, 2021 at 10:49
 
 # Standard imports
 
@@ -195,7 +195,7 @@ class Menu(Cli):
         ]
 
         # Launch form
-        self.launch = [
+        self.launch_form = [
             {
                 'type': 'list',
                 'name': 'selected_t',
@@ -206,6 +206,42 @@ class Menu(Cli):
                 'type': 'confirm',
                 'name': 'confirm',
                 'message': 'Are you sure to validate these fields ?',
+                'default': False,
+            }
+        ]
+
+        # Start Round
+        self.start_round_form = [
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Do you want to start the round ?',
+                'default': False,
+            }
+        ]
+
+        # Attribute results
+        self.attribute_results_form = [
+            {
+                'type': 'list',
+                'name': 'match_results',
+                'message': "To which match do you want to attribute a result?",
+                'choices': []
+            },
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Do you want to modify this player ?',
+                'default': True,
+            },
+        ]
+
+        # End Round
+        self.end_round_form = [
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Do you want to end the round ?',
                 'default': False,
             }
         ]
@@ -222,6 +258,16 @@ class Menu(Cli):
                 'type': 'confirm',
                 'name': 'confirm',
                 'message': 'Are you sure to validate these fields ?',
+                'default': False,
+            }
+        ]
+
+        # Next Round
+        self.next_round_form = [
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Do you want to go to next round?',
                 'default': False,
             }
         ]
@@ -246,6 +292,23 @@ class Menu(Cli):
 
         launch_tournament_menu(self):
             This method is used to prompt the tournament form to the user
+
+        start_round(self):
+            This method is used to prompt a question to start round.
+
+        attribute_results(self):
+            This method is used to prompt a form to choose which tournament
+            you want to enter results.
+
+        ask_winner(self):
+            This method is used to prompt a form to ask winner of a match.
+
+        end_round(self):
+            This method is used to ask the user if he wants to end the roun
+
+        next_round(self):
+            This method is used to prompt a form to ask the user if
+            he wants to go to next round.
 
         display_menus_item(self):
             This method is used to prompt display menu to the user
@@ -283,15 +346,40 @@ class Menu(Cli):
         answers = prompt(tournament_form, style=self.style)
         return answers
 
+    # ----------------------------------------------------------------
+    # Launch a tournament
+
     def launch_tournament_menu(self):
-        launch_form = self.launch
+        launch_form = self.launch_form
         answers = prompt(launch_form, style=self.style)
+        return answers
+
+    def start_round(self):
+        start_round = self.start_round_form
+        answers = prompt(start_round, style=self.style)
+        return answers
+
+    def attribute_results(self):
+        display_match = self.attribute_results_form
+        answers = prompt(display_match, style=self.style)
         return answers
 
     def ask_winner(self):
         ask_winner = self.ask_winner_form
         answers = prompt(ask_winner, style=self.style)
         return answers['ask_winner']
+
+    def end_round(self):
+        end_round = self.end_round_form
+        answers = prompt(end_round, style=self.style)
+        return answers['match_results']
+
+    def next_round(self):
+        next_round = self.next_round_form
+        answers = prompt(next_round, style=self.style)
+        return answers
+
+    # ----------------------------------------------------------------
 
     def display_menus_item(self):
         display_menus = self.display_menus

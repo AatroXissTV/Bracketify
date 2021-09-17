@@ -1,6 +1,6 @@
 # game_controller.py
 # Created Sep 07, 2021 at 11:19 CEST
-# Last Updated Sep 15, 2021 at 14:00 CEST
+# Last Updated Sep 16, 2021 at 15:00 CEST
 
 # Standard imports
 
@@ -152,8 +152,8 @@ class GameController():
 
     def return_submenu(title):
         menus = Menu(app_title=title)
-        subsubsubmenu = menus.return_to_main()
+        return_submenu = menus.return_to_main()
 
-        if (subsubsubmenu == 'True'):
+        if (return_submenu == 'True'):
             Cli.clear_screen(title)
             GameController(title)

@@ -1,14 +1,19 @@
 # match_model.py
 # Created Aug 27, 2021 at 10:52 CEST
-# Last updated Sep 08, 2021 at 16:07 CEST
+# Last updated Sep 17, 2021 at 09:54 CEST
 
 # Standard imports
 
 # Third-party imports
+from tinydb import TinyDB
 
 # Local imports
 
 # Other imports
+
+db = TinyDB('database/bracketify.json')
+db_matches = db.table('Matches')
+
 
 class Match:
     """Represents a match
@@ -50,6 +55,11 @@ class Match:
             'p_two_score': self.p_two_score
         }
 
+    def create_match(self):
+        serialized_match = self.serialize_match()
+        test = db_matches.insert(serialized_match)
+        return test
+
     def match_results(self, winner):
         if winner == "0":
             self.p_one_score = 0.5
@@ -61,10 +71,37 @@ class Match:
             self.p_one_score = 0
             self.p_two_score = 1
 
+    @classmethod
+    def update_scores(cls, score_p1, score_p2, match_id):
+        db_matches.update({'p_one_score': score_p1},
+                          doc_ids=[match_id])
+        db_matches.update({'p_two_score': score_p2},
+                          doc_ids=[match_id])
+
     def create_match_tuple(self):
         self.match_tuple = ([self.p_one, self.p_one_score],
                             [self.p_two, self.p_two_score])
         return self.match_tuple
+
+    @classmethod
+    def deserialize_matches(cls, data):
+        p_one = data['p_one']
+        p_two = data['p_two']
+        p_one_score = data['p_one_score']
+        p_two_score = data['p_two_score']
+        return Match(p_one, p_two, p_one_score, p_two_score)
+
+    @classmethod
+    def load_matches_db(cls):
+        matches_list = []
+        for match in db_matches.all():
+            matches_list.append(match)
+        return matches_list
+
+    @classmethod
+    def get_matches_w_doc_id(cls, doc_id):
+        match = db_matches.get(doc_id=doc_id)
+        return match
 
     def __str__(self):
         return('P1: {} ({}) VS P2: {} ({})').format(self.p_one,
