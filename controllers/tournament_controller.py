@@ -7,7 +7,6 @@
 # Third-party imports
 
 # local imports
-from models.match_model import Match
 from controllers.round_controller import RoundController
 from models.player_model import Player
 from models.tournament_model import Tournament
@@ -111,9 +110,9 @@ class TournamentController():
 
     def launch_tournament(self, title):
         menu = Menu(app_title=title)
-        print("Launching a tournament")
 
-        # Append Choices with tournaments_list
+        print('Launch a tournament')
+        # Append Choices with tournament
         display_t = Tournament.load_tournaments_db()
         for tournament in display_t:
             menu.launch_form[0]['choices'].append(tournament['name'])
@@ -125,85 +124,10 @@ class TournamentController():
             Cli.cli_entry(title)
             answers = menu.start_round()
 
-            # Matchmaking
-            p_sorted = RoundController.get_players_round(selected_t)
-            middle_index = RoundController.get_middle_index(p_sorted)
-            matchmaking = RoundController.mm_first_round(p_sorted,
-                                                         middle_index)
-
-            matches_list = []
-            for matches in matchmaking:
-                deserialized = Match.deserialize_matches(matches)
-                match_doc_id = Match.create_match(deserialized)
-                matches_list.append(match_doc_id)
-
-            # Create Round
-            first_r_doc_id = RoundController.create_round(matches_list, 1)
-            print(first_r_doc_id)
+            r_doc_id = RoundController.c_first_round(title,
+                                                     selected_t)
+            Cli.cli_delay()
 
             if answers['confirm']:
                 Cli.cli_entry(title)
-
-                # Append Choices with Matches in round
-                round = RoundController.get_round_with_doc_id(first_r_doc_id)
-
-                for match_doc_id in round['matches_list']:
-                    match_info = Match.get_matches_w_doc_id(match_doc_id)
-
-                    menu.attribute_results_form[0]['choices'].append(
-                        {
-                            'key': 'm',
-                            'name': '{} ({}) vs {} ({})'
-                            .format(match_info['p_one'],
-                                    match_info['p_one_score'],
-                                    match_info['p_two'],
-                                    match_info['p_two_score']),
-                            'value': match_doc_id
-                        }
-                    )
-
-                answers = menu.attribute_results()
-
-                if answers['confirm']:
-                    Cli.cli_entry(title)
-                    match_selected = answers['match_results']
-                    ask_winner_menu = menu.ask_winner()
-
-                    if (ask_winner_menu == "0"):
-                        serialize = Match.get_matches_w_doc_id(match_selected)
-                        match = Match.deserialize_matches(serialize)
-                        match.match_results("0")
-                        serialized = match.serialize_match()
-                        match.update_scores(serialized['p_one_score'],
-                                            serialized['p_two_score'],
-                                            match_selected)
-                        print(match)
-
-                    elif (ask_winner_menu == "1"):
-                        serialize = Match.get_matches_w_doc_id(match_selected)
-                        match = Match.deserialize_matches(serialize)
-                        match.match_results("1")
-                        serialized = match.serialize_match()
-                        match.update_scores(serialized['p_one_score'],
-                                            serialized['p_two_score'],
-                                            match_selected)
-                        print(match)
-
-                    elif (ask_winner_menu == "2"):
-                        serialize = Match.get_matches_w_doc_id(match_selected)
-                        match = Match.deserialize_matches(serialize)
-                        match.match_results("2")
-                        serialized = match.serialize_match()
-                        match.update_scores(serialized['p_one_score'],
-                                            serialized['p_two_score'],
-                                            match_selected)
-                        print(match)
-
-                    if answers['confirm']:
-                        Cli.cli_entry(title)
-
-                elif answers:
-                    Cli.cli_entry(title)
-                    answers = menu.end_round()
-                    if answers['confirm']:
-                        pass
+                RoundController.attribute_results(None, title, r_doc_id)

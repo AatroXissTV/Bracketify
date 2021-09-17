@@ -231,7 +231,7 @@ class Menu(Cli):
             {
                 'type': 'confirm',
                 'name': 'confirm',
-                'message': 'Do you want to modify this player ?',
+                'message': 'Do you want to attribute score to this match?',
                 'default': True,
             },
         ]
@@ -372,7 +372,7 @@ class Menu(Cli):
     def end_round(self):
         end_round = self.end_round_form
         answers = prompt(end_round, style=self.style)
-        return answers['match_results']
+        return answers
 
     def next_round(self):
         next_round = self.next_round_form

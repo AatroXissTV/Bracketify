@@ -14,30 +14,27 @@ from views.menu import Menu
 class MatchContoller():
 
     def ask_winner(title, match_selected):
-        print("Enter the winner of the round")
         menu = Menu(app_title=title)
 
         ask_winner_menu = menu.ask_winner()
 
         if (ask_winner_menu == "0"):
             i = ask_winner_menu
-            match_results = MatchContoller.update_scores(match_selected,
-                                                         i)
-            print(match_results)
+            match = MatchContoller.update_scores(match_selected,
+                                                 i)
+            print(match)
 
         elif (ask_winner_menu == "1"):
             i = ask_winner_menu
-            match_results = MatchContoller.update_scores(match_selected,
-                                                         i)
-            print(match_results)
+            match = MatchContoller.update_scores(match_selected,
+                                                 i)
+            print(match)
 
         elif (ask_winner_menu == "2"):
             i = ask_winner_menu
-            match_results = MatchContoller.update_scores(match_selected,
-                                                         i)
-            print(match_results)
-
-        return match_results
+            match = MatchContoller.update_scores(match_selected,
+                                                 i)
+            print(match)
 
     def update_scores(match_selected, i):
         get_match = Match.get_matches_w_doc_id(match_selected)
@@ -47,4 +44,6 @@ class MatchContoller():
         match_object.update_scores(serialized_match['p_one_score'],
                                    serialized_match['p_two_score'],
                                    match_selected)
-        return match_object
+        get_new_match = Match.get_matches_w_doc_id(match_selected)
+        new_match = Match.deserialize_matches(get_new_match)
+        return new_match
