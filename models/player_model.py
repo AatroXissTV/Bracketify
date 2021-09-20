@@ -1,7 +1,6 @@
 # player_model.py
-# Created Aug 26, 2021 at 12:00 CEST
-# Last Updated Sep 10, 2021 at 15:12
-
+# Created Sep 20, 2021 at 11:32 CEST
+# Last updated Sep 20, 2021 at 11:32 CEST
 # Standard imports
 
 # Third-party imports
@@ -26,15 +25,15 @@ class Player:
 
         - Args:
             name -> str
-                Name of the player.
+                Name of a player.
             first_name -> str
-                First name of the player.
+                First name of a player.
             birth_date -> str
-                Birthday of the player.
+                Birthday of a player.
             gender -> str
-                Gender of the player.
+                Gender of a player.
             rank -> int
-                Current rank of the player.
+                Current rank of a player.
                 Must be a positive int.
         """
 
@@ -63,9 +62,14 @@ class Player:
         deserialize_player(cls, data)
             Method is used to restore data from JSON objects
             in 'players' DB into a Python object.
+            data -> JSON str
         load_players_db(cls)
             Method is used to cast JSON objects in 'players' DB
             into a list.
+        get_player_with_doc_id(cls, doc_id):
+            This method is used to retrieve a player with its
+            Doc ID
+            doc_id ->
         get_players_ordered_by_rank(cls, players_list)
             Method is used to cast JSON objects in 'players' DB
             into a list.

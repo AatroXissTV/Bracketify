@@ -1,6 +1,6 @@
 # match_model.py
 # Created Aug 27, 2021 at 10:52 CEST
-# Last updated Sep 17, 2021 at 09:54 CEST
+# Last updated Sep 17, 2021 at 17:00 CEST
 
 # Standard imports
 
@@ -102,6 +102,35 @@ class Match:
     def get_matches_w_doc_id(cls, doc_id):
         match = db_matches.get(doc_id=doc_id)
         return match
+
+    @classmethod
+    def mm_first_round(cls, middle_index, first_half, second_half):
+
+        print("Generating matches for the first round")
+        matches_list = []
+        for i in range(middle_index):
+            match = Match(first_half[i],
+                          second_half[i])
+            print(match)
+            serialize_match = match.serialize_match()
+            matches_list.append(serialize_match)
+        return matches_list
+
+    @classmethod
+    def middle_index_players_list(cls, players_in_round):
+        length = len(players_in_round)
+        middle_index = length//2
+        return middle_index
+
+    @classmethod
+    def split_first_half(cls, players_in_round, middle_index):
+        first_half = players_in_round[:middle_index]
+        return first_half
+
+    @classmethod
+    def split_second_half(cls, players_in_round, middle_index):
+        second_half = players_in_round[middle_index:]
+        return second_half
 
     def __str__(self):
         return('P1: {} ({}) VS P2: {} ({})').format(self.p_one,

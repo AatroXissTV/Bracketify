@@ -1,6 +1,6 @@
 # tournament_model.py
 # Created Aug 26, 2021 at 12:13 CEST
-# Last Updated Sep 13, 2021 at 15:12
+# Last Updated Sep 20, 2021 at 17:00
 
 # Standard imports
 
@@ -9,6 +9,7 @@ from tinydb import TinyDB
 from tinydb.queries import where
 
 # Local imports
+from models.player_model import Player
 
 # Other imports
 
@@ -108,9 +109,30 @@ class Tournament:
         return tournaments_list
 
     @classmethod
-    def get_tournament_w_name(cls, name):
+    def get_tournament_doc_id(cls, name):
         for tournament in db_tournaments.search(where('name') == name):
-            return tournament
+            tournament_doc_id = tournament.doc_id
+            return tournament_doc_id
+
+    @classmethod
+    def get_tournament_with_doc_id(cls, doc_id):
+        tournament = db_tournaments.get(doc_id=doc_id)
+        return tournament
+
+    @classmethod
+    def get_players_in_t(cls, tournament_id):
+        t = Tournament.get_tournament_with_doc_id(tournament_id)
+        players_docid = t['players_list']
+        players_list = []
+        for doc_id in players_docid:
+            player = Player.get_player_with_doc_id(doc_id)
+            players_list.append(player)
+        return players_list
+
+    @classmethod
+    def update_round_list(cls, tournament_id, r_doc_id):
+        db_tournaments.update({'rounds_list': [r_doc_id]},
+                              doc_ids=[tournament_id])
 
     def __str__(self) -> str:
         return ("Name: {}\nLocation: {}\nDate {} - {}\nRounds Number: {}\n"

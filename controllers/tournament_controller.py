@@ -1,15 +1,15 @@
 # tournament_controller.py
-# Created Sep 10, 2021 at 11:10
-# Last Updated Sep 17, 2021 at 10:20
+# Created Sep 20, 2021 at 13:00 CEST
+# Last updated Sep 20, 2021 at 13:00 CEST
 
-# Standrad imports
+# Standard imports
 
 # Third-party imports
 
-# local imports
+# Local imports
 from controllers.round_controller import RoundController
-from models.player_model import Player
 from models.tournament_model import Tournament
+from models.player_model import Player
 from views.menu import Menu
 from views.cli_view import Cli
 
@@ -17,20 +17,22 @@ from views.cli_view import Cli
 
 
 class TournamentController():
+    """Manage all tournaments related Models/views
 
-    """ Summary of Methods used in Tournament Controller
+    - Methods:
+        create_tournament(self, title):
+            This method is used to create tournament in 'tournaments' DB.
+            Return DOC ID of tournament.
 
-    - Methods :
-        create_tournament(self, title)
-            This method is used to manage creation of tournaments.
-            Display menu, manage answers &
-            save the tournaments in 'tournaments' DB.
+        launch_tournament(self, title):
+            This method is used to launch a tournament created in
+            'tournaments' DB.
 
-                Calls:
-                It calls other methods in models & views
-                -> Player model -> Load DB, Get player doc_id
-                -> Tournament model -> deserialize, create tournament
-                -> tournament menu (viewds) -> display form
+        tournament(self, title, tournament_id):
+            This method is used to iterate through rounds in tournament
+
+        end_tournament(self, title):
+            This method is used to end tournament.
 
         display_tournaments(self):
             This method is used to display list of tournaments to the user
@@ -45,39 +47,91 @@ class TournamentController():
                 -> Tournament model -> load DB, get tournament with name
                 -> Player model -> Get player with doc ID
                 -> launch_tournament_menu -> display form
-
-
-        launc_tournament(self, title):
-            This method is used to manage launch a tournament menus.
     """
 
     def create_tournament(self, title):
-        tournament_menu = Menu(app_title=title)
-        print("Add a tournament to the 'tournaments' DB.")
+        menu = Menu(app_title=title)
+        print("Add a tournament in 'tournaments' DB.")
 
-        # Append choices with players list
-        display_p = Player.load_players_db()
-
-        for player in display_p:
-
-            # Value is DOC ID of a player
+        # Append Choices in form with players list
+        players_list = Player.load_players_db()
+        for player in players_list:
             doc_id = Player.get_player_doc_id(player['name'])
-
-            tournament_menu.tournament_form[7]['choices'].append(
+            menu.tournament_form[7]['choices'].append(
                 {
                     'key': 'd',
                     'name': '{} {} (rank {})'.format(player['first_name'],
                                                      player['name'],
                                                      player['rank']),
                     'value': doc_id,
-                },
+                }
             )
 
-        # prompt form + saves it in DB
-        answers = tournament_menu.tournament_menu()
+        # Prompt form + Save in DB
+        answers = menu.tournament_menu()
         if answers['confirm']:
             obj = Tournament.deserialize_tournament(answers)
-            obj.create_tournament()
+            tournament_id = obj.create_tournament()
+        return tournament_id
+
+    def launch_tournament(self, title):
+        menu = Menu(app_title=title)
+        print("Launch a tournament")
+
+        # Append choices in form with tournaments list
+        tournaments_list = Tournament.load_tournaments_db()
+        for t in tournaments_list:
+            doc_id = Tournament.get_tournament_doc_id(t['name'])
+            menu.launch_form[0]['choices'].append(
+                {
+                    'key': 't',
+                    'name': "{} ({} rounds)".format(t['name'],
+                                                    t['rounds_number']),
+                    'value': doc_id
+                }
+            )
+
+        # Prompt form
+        answers = menu.launch_tournament_menu()
+        tournament_id = answers['selected_t']
+
+        if answers['confirm']:
+
+            Cli.cli_entry(title)
+            answers = menu.start_round()
+            r_doc_id = RoundController.first_round(tournament_id)
+            TournamentController.update_rounds_list(tournament_id, r_doc_id)
+            Cli.cli_delay()
+
+            if answers['confirm']:
+
+                Cli.cli_entry(title)
+                RoundController.attribute_results_round(title, r_doc_id)
+                Cli.clear_screen()
+
+    def tournament(self, title, tournament_id):
+        menu = Menu(app_title=title)
+        t = Tournament.get_tournament_with_doc_id(tournament_id)
+        numb_of_rounds = t['rounds_number']
+
+        for i in range(2, numb_of_rounds):
+            Cli.cli_entry(title)
+            answers = menu.start_round()
+            # Other round in ROUND CONTROLLER
+            Cli.cli_delay()
+
+            if answers['confirm']:
+                Cli.cli_entry(title)
+                # Attribute Results + end round in Round CONTROLLER
+
+    def end_tournament(self, title):
+        menu = Menu(app_title=title)
+        Cli.cli_entry(title)
+        answers = menu.start_round()
+        return answers
+
+    def update_rounds_list(tournament_id, r_doc_id):
+        Tournament.update_round_list(tournament_id, r_doc_id)
 
     def display_tournaments(self):
         print("List of tournaments")
@@ -105,29 +159,3 @@ class TournamentController():
                 test = Player.get_player_with_doc_id(docid)
                 players_list.append(test)
             return players_list
-
-    # LAUNCH TOURNAMENT
-
-    def launch_tournament(self, title):
-        menu = Menu(app_title=title)
-
-        print('Launch a tournament')
-        # Append Choices with tournament
-        display_t = Tournament.load_tournaments_db()
-        for tournament in display_t:
-            menu.launch_form[0]['choices'].append(tournament['name'])
-
-        answers = menu.launch_tournament_menu()
-        selected_t = answers['selected_t']
-
-        if answers['confirm']:
-            Cli.cli_entry(title)
-            answers = menu.start_round()
-
-            r_doc_id = RoundController.c_first_round(title,
-                                                     selected_t)
-            Cli.cli_delay()
-
-            if answers['confirm']:
-                Cli.cli_entry(title)
-                RoundController.attribute_results(None, title, r_doc_id)

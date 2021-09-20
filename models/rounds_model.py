@@ -10,7 +10,6 @@ from datetime import datetime as d
 from tinydb import TinyDB
 
 # Local imports
-from models.match_model import Match
 
 # Other imports
 db = TinyDB('database/bracketify.json')
@@ -90,36 +89,6 @@ class Round:
     def get_round_with_doc_id(cls, doc_id):
         round = db_rounds.get(doc_id=doc_id)
         return round
-
-    @classmethod
-    def mm_first_round(cls, middle_index, first_half, second_half):
-
-        print("Generating matches for the first round")
-        matches_list = []
-
-        for i in range(middle_index):
-            match = Match(first_half[i]['first_name'],
-                          second_half[i]['first_name'])
-            print(match)
-            serialize_match = match.serialize_match()
-            matches_list.append(serialize_match)
-        return matches_list
-
-    @classmethod
-    def middle_index_players_list(cls, players_in_round):
-        length = len(players_in_round)
-        middle_index = length//2
-        return middle_index
-
-    @classmethod
-    def split_first_half(cls, players_in_round, middle_index):
-        first_half = players_in_round[:middle_index]
-        return first_half
-
-    @classmethod
-    def split_second_half(cls, players_in_round, middle_index):
-        second_half = players_in_round[middle_index:]
-        return second_half
 
     @classmethod
     def start_round(cls):
