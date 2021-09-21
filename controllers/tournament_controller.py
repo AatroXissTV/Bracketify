@@ -1,6 +1,6 @@
 # tournament_controller.py
 # Created Sep 20, 2021 at 13:00 CEST
-# Last updated Sep 20, 2021 at 13:00 CEST
+# Last updated Sep 21, 2021 at 10:16 CEST
 
 # Standard imports
 
@@ -96,33 +96,43 @@ class TournamentController():
         tournament_id = answers['selected_t']
 
         if answers['confirm']:
+            return tournament_id
+
+    def first_round(self, title, tournament_id):
+        menu = Menu(app_title=title)
+
+        Cli.cli_entry(title)
+        answers = menu.start_round()
+        r_doc_id = RoundController.first_round(tournament_id)
+        TournamentController.update_rounds_list(tournament_id, r_doc_id)
+        Cli.cli_delay()
+
+        if answers['confirm']:
 
             Cli.cli_entry(title)
-            answers = menu.start_round()
-            r_doc_id = RoundController.first_round(tournament_id)
-            TournamentController.update_rounds_list(tournament_id, r_doc_id)
-            Cli.cli_delay()
+            RoundController.attribute_results_round(title, r_doc_id)
+            Cli.clear_screen()
+        return r_doc_id
 
-            if answers['confirm']:
-
-                Cli.cli_entry(title)
-                RoundController.attribute_results_round(title, r_doc_id)
-                Cli.clear_screen()
-
-    def tournament(self, title, tournament_id):
+    def rounds(self, title, tournament_id, r_doc_id):
         menu = Menu(app_title=title)
         t = Tournament.get_tournament_with_doc_id(tournament_id)
         numb_of_rounds = t['rounds_number']
 
-        for i in range(2, numb_of_rounds):
+        for i in range(2, numb_of_rounds+1):
+            print(i)
             Cli.cli_entry(title)
             answers = menu.start_round()
-            # Other round in ROUND CONTROLLER
-            Cli.cli_delay()
+            if answers['confirm']:
+                Cli.cli_entry(title)
+                next_r_doc_id = RoundController.round(r_doc_id, i)
+                print(next_r_doc_id)
+                Cli.cli_delay()
 
             if answers['confirm']:
                 Cli.cli_entry(title)
-                # Attribute Results + end round in Round CONTROLLER
+                RoundController.attribute_results_round(title, next_r_doc_id)
+                Cli.cli_delay
 
     def end_tournament(self, title):
         menu = Menu(app_title=title)

@@ -92,7 +92,8 @@ class GameController():
             elif (menu == 'Launch a tournament'):
                 Cli.cli_entry(title)
                 t_id = TournamentController.launch_tournament(None, title)
-                TournamentController.tournament(None, title, t_id)
+                r_doc_id = TournamentController.first_round(None, title, t_id)
+                TournamentController.rounds(None, title, t_id, r_doc_id)
                 TournamentController.end_tournament(None, title)
                 Cli.cli_delay()
 

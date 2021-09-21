@@ -57,8 +57,13 @@ class Match:
 
     def create_match(self):
         serialized_match = self.serialize_match()
-        test = db_matches.insert(serialized_match)
-        return test
+        match_doc_id = db_matches.insert(serialized_match)
+        return match_doc_id
+
+    def create_match_tuple(self):
+        self.match_tuple = ([self.p_one, self.p_one_score],
+                            [self.p_two, self.p_two_score])
+        return self.match_tuple
 
     def match_results(self, winner):
         if winner == "0":
@@ -77,11 +82,6 @@ class Match:
                           doc_ids=[match_id])
         db_matches.update({'p_two_score': score_p2},
                           doc_ids=[match_id])
-
-    def create_match_tuple(self):
-        self.match_tuple = ([self.p_one, self.p_one_score],
-                            [self.p_two, self.p_two_score])
-        return self.match_tuple
 
     @classmethod
     def deserialize_matches(cls, data):
