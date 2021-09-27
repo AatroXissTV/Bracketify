@@ -1,0 +1,109 @@
+{
+    "players": {
+        "1": {
+            "name": "Nougaret",
+            "first_name": "Adrien",
+            "birth_date": "01/03/1990",
+            "gender": "Male",
+            "rank": 1
+        },
+        "2": {
+            "name": "Dang",
+            "first_name": "Xavier",
+            "birth_date": "26/O8/1980",
+            "gender": "Male",
+            "rank": 2
+        },
+        "3": {
+            "name": "Grasset",
+            "first_name": "Colas",
+            "birth_date": "10/10/1990",
+            "gender": "Male",
+            "rank": 4
+        },
+        "4": {
+            "name": "Gerard",
+            "first_name": "Ysaline",
+            "birth_date": "24/07/1995",
+            "gender": "Female",
+            "rank": 5
+        },
+        "5": {
+            "name": "LilWhale",
+            "first_name": "Marianne",
+            "birth_date": "13/11/1994",
+            "gender": "Female",
+            "rank": 3
+        },
+        "6": {
+            "name": "Faurie",
+            "first_name": "Romain",
+            "birth_date": "09/10/1994",
+            "gender": "Male",
+            "rank": 6
+        },
+        "7": {
+            "name": "ChowH1",
+            "first_name": "Yann",
+            "birth_date": "17/09/1998",
+            "gender": "Male",
+            "rank": 7
+        },
+        "8": {
+            "name": "Lisoir",
+            "first_name": "Hugo",
+            "birth_date": "10/10/1994",
+            "gender": "Male",
+            "rank": 9
+        },
+        "9": {
+            "name": "Beaudesson",
+            "first_name": "Antoine",
+            "birth_date": "19/12/1997",
+            "gender": "Male",
+            "rank": 8
+        }
+    },
+    "tournaments": {
+        "1": {
+            "name": "GamePass Challenge #1",
+            "location": "Lyon",
+            "start_date": "23/09/2021",
+            "end_date": "28/O9/2021",
+            "description": "No comments",
+            "rules": "Bullet",
+            "rounds_number": 4,
+            "players_list": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                8,
+                9
+            ],
+            "rounds_list": []
+        },
+        "2": {
+            "name": "Zlan #1",
+            "location": "Lyon",
+            "start_date": "25/09/2021",
+            "end_date": "28/09/2021",
+            "description": "No Comments",
+            "rules": "Blitz",
+            "rounds_number": 4,
+            "players_list": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
+            "rounds_list": []
+        }
+    }
+}

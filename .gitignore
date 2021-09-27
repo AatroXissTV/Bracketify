@@ -6,6 +6,7 @@
 ### OLD ####
 /old/
 
-### Pycache ###
+### Pycache ###*
+/controllers/__pycache__
 /__pycache__/
 *.pyc
