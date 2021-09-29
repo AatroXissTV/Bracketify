@@ -1,11 +1,11 @@
 # views/cli_views.py
 # created 22/09/2021 @ 22:09 CEST
-# last updated 22/09/2021 @ 22:09 CEST
+# last updated 28/09/2021 @ 10:26 CEST
 
 """ views/cli_views.py
 
 To do:
-    * Update Requirements with pyfiglet.
+    * Add tasks
     *
 
 """
@@ -14,7 +14,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.5.0"
+__version__ = "1.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -59,6 +59,11 @@ class Cli():
         cli_delay(cls, delay=3, second_delay=1):
             delay new screen
 
+        cli_delay_no_interaction(cls):
+            Delay new screen but doesn't return to the user
+            a message that says software is interacting with
+            the database.
+
         cli_clear(cls):
             clear screen
 
@@ -76,14 +81,14 @@ class Cli():
     @classmethod
     def cli_delay(cls):
         print("Please wait, I'm interacting with the database")
-        sleep(3)
+        sleep(2)
         print("It's ok, I saved your changes")
         sleep(1)
 
     @classmethod
     def cli_delay_no_interaction(cls):
         print("...")
-        sleep(3)
+        sleep(2)
         print("Done")
         sleep(1)
 

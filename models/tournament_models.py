@@ -14,7 +14,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.5.0"
+__version__ = "1.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -22,9 +22,11 @@ __status__ = "Student in Python"
 # standard imports
 
 # third-party imports
+from models.match_models import Match
 from tinydb import TinyDB
 
 # local imports
+from models.round_models import Round
 
 # other
 db = TinyDB('database/db_bracketify.json')
@@ -115,6 +117,30 @@ class Tournament:
 
     def update_rounds_list(self, new_list, t_docid):
         db_tournaments.update({'rounds_list': new_list}, doc_ids=[t_docid])
+
+    def check_if_p_were_opponents(self, tournament_docid, p1, p2):
+        tournament = Tournament.get_tournament_w_docid(tournament_docid)
+        matches_list = []
+        for round_docid in tournament['rounds_list']:
+            round = Round.get_round_with_doc_id(round_docid)
+            for match_docid in round['matches_list']:
+                matches_list.append(match_docid)
+
+        for match_docid in matches_list:
+            match = Match.get_matches_w_doc_id(match_docid)
+            m_p1 = match['p_one']
+            m_p2 = match['p_two']
+
+            if p1 == m_p1 and p2 == m_p2:
+                value = True
+                break
+            else:
+                if p2 == m_p1 and p1 == m_p2:
+                    value = True
+                    break
+                else:
+                    value = False
+        return value
 
     @classmethod
     def load_tournament_docid_db(cls):

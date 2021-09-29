@@ -1,6 +1,6 @@
 # views/round_views.py
 # created 24/09/2021 @ 16:24 CEST
-# last updated 24/09/2021 @ 16:24 CEST
+# last updated 28/09/2021 @ 11:06 CEST
 
 # must be at the beginning of the file
 from __future__ import print_function, unicode_literals
@@ -17,7 +17,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.5.0"
+__version__ = "1.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -101,6 +101,16 @@ class RoundMenu(Cli):
             }
         ]
 
+        self.results_form = [
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'Do you want to return to main menu',
+                'default': False,
+            }
+
+        ]
+
     """Method used in RoundMenu Class
 
     - Methods:
@@ -129,4 +139,9 @@ class RoundMenu(Cli):
     def end_round(self):
         end_round = self.end_round_form
         answers = prompt(end_round, style=self.style)
+        return answers
+
+    def results(self):
+        results_form = self.results_form
+        answers = prompt(results_form, style=self.style)
         return answers

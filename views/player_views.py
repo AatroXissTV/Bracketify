@@ -1,6 +1,6 @@
 # views/player_views.py
 # created 23/09/2021 @ 00:40 CEST
-# last updated 23/09/2021 @ 00:40 CEST
+# last updated 28/09/2021 @ 10:40 CEST
 
 # must be at the beginning of the file
 from __future__ import print_function, unicode_literals
@@ -17,7 +17,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.5.0"
+__version__ = "1.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -30,6 +30,9 @@ from PyInquirer import style_from_dict, Token, prompt
 # local imports
 from views.cli_views import Cli
 from views.validators_views import DateValidator
+from views.validators_views import StringValidator
+from views.validators_views import NumberValidator
+
 
 # other
 
@@ -59,11 +62,13 @@ class PlayerMenu(Cli):
                 'type': 'input',
                 'name': 'name',
                 'message': 'last name: ',
+                'validate': StringValidator
             },
             {
                 'type': 'input',
                 'name': 'first_name',
                 'message': 'first name: ',
+                'validate': StringValidator
             },
             {
                 'type': 'input',
@@ -84,6 +89,8 @@ class PlayerMenu(Cli):
                 'type': 'input',
                 'name': 'rank',
                 'message': 'rank: ',
+                'validate': None,
+                'filter': lambda val: int(val) if int(val) > 0 else None
             },
             {
                 'type': 'confirm',
@@ -104,6 +111,7 @@ class PlayerMenu(Cli):
                 'type': 'input',
                 'name': 'new_rank',
                 'message': 'Enter the new rank: ',
+                'validate': NumberValidator,
                 'filter': lambda val: int(val) if int(val) > 0 else None
             },
             {

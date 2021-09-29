@@ -1,8 +1,14 @@
-# Bracketify
+# Bracketify (OC_P4)
 
-This is a **training project** part of "Application Developper Python" OC formation. 
+Bracketify is a **training project** part of "Python application developer" training of OpenClassrooms. 
+It's an interactive CLI application made in Python. It's developed with an MVC pattern and uses TinyDB to persist Rounds, matches, players & tournaments. 
 
-The software has to handle chess tournaments with swiss pairing.
+The front-end is made with a package called PyInquirer. 
+It has been made on Windows so it might not work with MacOS and Linux. 
+
+Make sure to install all packages in 'requirements.txt'.
+
+The software currently handles management of chess tournament with Swiss Pairing algorithm.
 
 ## Download & Create a virtual env
 
@@ -34,27 +40,22 @@ Then run the following commands:
     $ python main.py
     ```
 
+## Generate Flake8 Report
+
+You can generate a flake8 report. It's located inside the 'flake-report' folder. 
+flake8 has an option for max-line set to 79.
+
+* Generate Flake8 report:
+    ```
+    $ flake8 --format=html --htmldir=flake-report
+    ```
+
 ## Updates
 
-Hello everyone, this is a dev version of Bracketify. 
-I'm currently working on it so things might not working as intended. 
+Hi everyone, 
+I finally finished this long OpenClassrooms project that gave me a lot of trouble and made me lose my two weeks advance. 
 
-Files are structured with MVC but critical feature are missing. 
-
-First verson of app is expected to be delivered at the end of next week (22/09/2021)
-
-You can consult the project management board if you want accurate tracking of progress! 
-
-### To Do list
-- [x] Create player model
-- [x] Create tournament model
-- [x] Create participant model
-- [x] Create match model
-- [x] Create round model
-- [x] Create Main Menu view
-- [x] Create tournament view
-- [x] Create player view
-- [ ] Create Controllers
+Everything works according to the specifications except for the matches which are not stored as tuples but directly with a list of key values in the database. 
 
 ## Author
 

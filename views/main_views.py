@@ -1,6 +1,6 @@
 # views/main_views.py
 # created 22/09/2021 @ 22:24 CEST
-# last updated 22/09/2021 @ 22:24 CEST
+# last updated 28/09/2021 @ 10:28 CEST
 
 # must be at the beginning of the file
 from __future__ import print_function, unicode_literals
@@ -8,7 +8,7 @@ from __future__ import print_function, unicode_literals
 """ views/main_views.py
 
 To do:
-    * Update Requirements with PyInquirer.
+    * Add tasks
     *
 
 """
@@ -17,7 +17,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.5.0"
+__version__ = "1.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -141,3 +141,5 @@ class MainMenu(Cli):
         return_to_main_form = self.return_to_main_form
         answers = prompt(return_to_main_form, style=self.style)
         return answers['return_to_main']
+
+    

@@ -1,5 +1,7 @@
 # Requirements.txt for Bracketify
+
 flake8==3.9.2
 tinydb==4.5.1
 pyfiglet==0.8.post1
 PyInquirer==1.0.3
+dateparser==1.0.0

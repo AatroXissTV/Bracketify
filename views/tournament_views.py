@@ -1,6 +1,6 @@
 # views/tournament_views.py
 # created 23/09/2021 @ 11:46 CEST
-# last updated 23/09/2021 @ 11:46 CEST
+# last updated 28/09/2021 @ 11:00 CEST
 
 # must be at the beginning of the file
 from __future__ import print_function, unicode_literals
@@ -17,7 +17,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "0.5.0"
+__version__ = "1.0.0"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -29,7 +29,8 @@ from PyInquirer import style_from_dict, Token, prompt
 
 # local imports
 from views.cli_views import Cli
-from views.validators_views import DateValidator
+from views.validators_views import DateValidator, NumberValidator
+from views.validators_views import StringValidator
 
 # other
 
@@ -58,12 +59,14 @@ class TournamentMenu(Cli):
             {
                 'type': 'input',
                 'name': 'name',
-                'message': "Enter the tournament's name: "
+                'message': "Enter the tournament's name: ",
+                'validate': StringValidator
             },
             {
                 'type': 'input',
                 'name': 'location',
                 'message': "location",
+                'validate': StringValidator
             },
             {
                 'type': 'input',
@@ -93,6 +96,7 @@ class TournamentMenu(Cli):
                 'name': 'rounds_number',
                 'message': "Numb of rounds > 0 or set to 4",
                 'default': '4',
+                'validate': NumberValidator,
                 'filter': lambda val: int(val) if int(val) > 0 else None
             },
             {
@@ -101,7 +105,7 @@ class TournamentMenu(Cli):
                 'name': 'players_list',
                 'choices': [],
                 'validate': lambda choices: 'Select 8 players min'
-                if len(choices['players_list']) < 8 else True,
+                if len(choices) < 8 else True,
             },
             {
                 'type': 'confirm',
