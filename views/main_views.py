@@ -141,5 +141,3 @@ class MainMenu(Cli):
         return_to_main_form = self.return_to_main_form
         answers = prompt(return_to_main_form, style=self.style)
         return answers['return_to_main']
-
-    

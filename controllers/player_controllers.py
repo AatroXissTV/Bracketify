@@ -86,6 +86,37 @@ class PlayerController():
             Cli.cli_delay_no_interaction()
             pass
 
+    def modify_player_in_t_rank(title, ordered_list):
+        player_menus = PlayerMenu(app_title=title)
+        print("You can now modify player rank.")
+
+        # Load player in ordered_list in choices
+        for player_docid in ordered_list:
+            player = Player.get_player_w_docid(player_docid[0])
+            player_menus.modify_rank_form[0]['choices'].append(
+                {
+                    'key': 'p',
+                    'name': '{} {} ({})'
+                    .format(player['name'],
+                            player['first_name'],
+                            player['rank']),
+                    'value': player_docid[0]
+                }
+            )
+        answers = player_menus.modify_rank()
+        if answers['confirm']:
+            obj = Player.update_player_rank(None, answers['new_rank'],
+                                            answers['doc_id'])
+            answers = player_menus.return_to_menu()
+            if answers['confirm']:
+                pass
+            else:
+                PlayerController.modify_player_in_t_rank(title, ordered_list)
+            return obj
+        else:
+            PlayerController.modify_player_in_t_rank(title, ordered_list)
+            pass
+
     # DISPLAY
 
     def display_players(title):

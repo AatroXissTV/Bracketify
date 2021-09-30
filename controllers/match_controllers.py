@@ -109,9 +109,8 @@ class MatchController():
             rank = get_player['rank']
             player.append(rank)
 
-        sorted(player_list, key=itemgetter(2), reverse=False)
-        sorted_p = sorted(player_list, key=itemgetter(1), reverse=True)
-
+        sorted_p1 = sorted(player_list, key=itemgetter(2), reverse=False)
+        sorted_p = sorted(sorted_p1, key=itemgetter(1), reverse=True)
         return sorted_p
 
     def matchmaking_first_round(ordered_docid):
@@ -146,10 +145,8 @@ class MatchController():
                 else:
                     update_list2 = first_half[x]
                     update_list1 = second_half[i]
-
                     first_half[x] = update_list1
                     second_half[i] = update_list2
-
                     match = Match(first_half[i][0], second_half[i][0],
                                   None, None,
                                   first_half[i][1], second_half[i][1])

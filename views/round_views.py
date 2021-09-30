@@ -83,12 +83,6 @@ class RoundMenu(Cli):
                 'name': 'ask_winner',
                 'message': "Select Winner (tie = 0, P1 = 1, P2 = 2)",
                 'choices': ['0', '1', '2']
-            },
-            {
-                'type': 'confirm',
-                'name': 'confirm',
-                'message': 'Are you sure to validate these fields ?',
-                'default': False,
             }
         ]
 
@@ -105,10 +99,9 @@ class RoundMenu(Cli):
             {
                 'type': 'confirm',
                 'name': 'confirm',
-                'message': 'Do you want to return to main menu',
+                'message': 'Do you want to modify player rank?',
                 'default': False,
             }
-
         ]
 
     """Method used in RoundMenu Class

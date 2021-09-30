@@ -24,6 +24,8 @@ __status__ = "Student in Python"
 # third-party imports
 
 # local imports
+from time import sleep
+from controllers.player_controllers import PlayerController
 from models.player_models import Player
 from models.tournament_models import Tournament
 from models.round_models import Round
@@ -97,14 +99,11 @@ class RoundController():
         else:
             Cli.cli_entry(title)
             menu = RoundMenu(app_title=title)
-            print("No more rounds in tournament")
-            print("The tournament is over.")
-            print("Display Results\n")
+            print("The tournament is finished.")
             print("Players list by total points\n")
             r_docid = RoundController.get_last_round_docid(tournament_id)
             matches_tuples = MatchController.get_match_tuples(r_docid)
             ordered_list = MatchController.sort_players_round(matches_tuples)
-            print(ordered_list)
             for player in ordered_list:
                 get_player = Player.get_player_w_docid(player[0])
                 print("{} {} ({}) - Total {}".format(get_player['first_name'],
@@ -113,9 +112,10 @@ class RoundController():
                                                      player[1]))
             answers = menu.results()
             if answers['confirm']:
-                pass
+                PlayerController.modify_player_in_t_rank(title, ordered_list)
             else:
-                RoundController.rounds_management(tournament_id, title)
+                print("Back to main menu")
+                sleep(3)
 
     def go_next_round(tournament_id, current_round, len_rounds_list, title):
         round_type = Round.determine_round_type(len_rounds_list)
@@ -171,6 +171,10 @@ class RoundController():
             MatchController.ask_winner(title, match_results)
             if answers['confirm']:
                 RoundController.end_round_menu(title, r_docid)
+            else:
+                MatchController.ask_winner(title, match_results)
+        else:
+            RoundController.attribute_results(title, r_docid)
 
     def end_round_menu(title, r_doc_id):
         menu = RoundMenu(app_title=title)

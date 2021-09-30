@@ -122,6 +122,15 @@ class PlayerMenu(Cli):
             },
         ]
 
+        self.return_to_menu_form = [
+            {
+                'type': 'confirm',
+                'name': 'confirm',
+                'message': 'return to main menu (Y) or modify ranks (n)',
+                'default': True,
+            }
+        ]
+
     """Summary of methods and quick explanation
 
     - Methods:
@@ -141,4 +150,9 @@ class PlayerMenu(Cli):
     def modify_rank(self):
         modify_rank_form = self.modify_rank_form
         answers = prompt(modify_rank_form, style=self.style)
+        return answers
+
+    def return_to_menu(self):
+        return_to_menu_form = self.return_to_menu_form
+        answers = prompt(return_to_menu_form, style=self.style)
         return answers
