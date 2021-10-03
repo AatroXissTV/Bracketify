@@ -14,7 +14,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -54,7 +54,7 @@ class MatchController():
             used to do the matchmaking of the first round.
             return a list of the matches.
 
-        matchmaking_round(ordered_list):
+        matchmaking_round(ordered_list, tournament_docid):
             used to do the matchmaking of the rounds.
             return a list of matches.
             MISSING IF PLAYER PLAYED TOGETHER
@@ -70,7 +70,7 @@ class MatchController():
             is used to create each matches in list of matches.
             return a list of IDs of matches
 
-        calculate_points(tournament_id):
+        calculate_points(match_selected):
             retrieve the previous round and get the last element.
             retrieve points & scores.
             Add scores to points and return points.
@@ -167,23 +167,20 @@ class MatchController():
 
         if (ask_winner_menu == "0"):
             i = ask_winner_menu
-            match = MatchController.update_scores(match_selected,
-                                                  i)
-            MatchController.calculate_points(match_selected)
+            MatchController.update_scores(match_selected,
+                                          i)
+            # MatchController.calculate_points(match_selected)
 
         elif (ask_winner_menu == "1"):
             i = ask_winner_menu
-            match = MatchController.update_scores(match_selected,
-                                                  i)
-            MatchController.calculate_points(match_selected)
+            MatchController.update_scores(match_selected,
+                                          i)
 
         elif (ask_winner_menu == "2"):
             i = ask_winner_menu
-            match = MatchController.update_scores(match_selected,
-                                                  i)
-            MatchController.calculate_points(match_selected)
-
-        return match
+            MatchController.update_scores(match_selected,
+                                          i)
+        return ask_winner_menu
 
     def update_scores(match_selected, i):
         get_match = Match.get_matches_w_doc_id(match_selected)
@@ -210,4 +207,3 @@ class MatchController():
         points_p1 = get_match['p_one_score'] + get_match['p_one_points']
         points_p2 = get_match['p_two_score'] + get_match['p_two_points']
         Match.update_points(points_p1, points_p2, match_selected)
-        Match.get_matches_w_doc_id(match_selected)

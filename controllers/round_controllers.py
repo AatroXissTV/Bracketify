@@ -5,7 +5,7 @@
 """ controllers/round_controller.py
 
 To do:
-    * DO CORRECT PAIRING IF PLAYER HAS ALREADY PLAYED WITH ANOTHER PLAYER
+    * Add tasks
     *
 
 """
@@ -14,18 +14,17 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
 
 # standard imports
+from time import sleep
 
 # third-party imports
 
 # local imports
-from time import sleep
-from controllers.player_controllers import PlayerController
 from models.player_models import Player
 from models.tournament_models import Tournament
 from models.round_models import Round
@@ -43,20 +42,14 @@ class RoundController():
     Summary of methods and quick explanation:
 
     - Methods :
-        rounds_management(tournament_id):
-            used to know if the programs needs to create another
-            round of the tournament based on 'rounds_number' in
-            'tournaments' DB & current length of 'rounds_list'.
-            'rounds_list' -> list of rounds IDs in 'tournaments' DB.
-
         go_next_round(tournament_id, rounds_number, len_rounds_list):
             used to go to next round if its the first round launch first_round
             else launch round.
 
-        attribute_results(title, r_docid):
+        attribute_results(tournament_id, title, r_docid):
             used to know to which player the user wants to attribute scores.
 
-        end_round_menu(title, r_docid):
+        end_round_menu(tournament_id, title, r_docid):
             used to know if the user wants to end the round
 
         first_round(tournament_id, current_round):
@@ -75,66 +68,24 @@ class RoundController():
             used to update rounds_list in tournament.
     """
 
-    def rounds_management(tournament_id, title):
-        round_menu = RoundMenu(app_title=title)
-        tournament = Tournament.get_tournament_w_docid(tournament_id)
-        rounds_number = tournament['rounds_number']
-        len_rounds_list = Tournament.get_len_rounds_list(tournament_id)
-
-        while (len_rounds_list < (rounds_number)):
-            Cli.cli_entry(title)
-            answers = round_menu.start_round()
-
-            if answers['confirm']:
-                current_round = len_rounds_list+1
-                RoundController.go_next_round(tournament_id,
-                                              current_round,
-                                              len_rounds_list, title)
-                len_rounds_list = Tournament.get_len_rounds_list(tournament_id)
-            else:
-                print("The round has not started.")
-                print("We redirect you to the main menu")
-                Cli.cli_delay_no_interaction()
-
-        else:
-            Cli.cli_entry(title)
-            menu = RoundMenu(app_title=title)
-            print("The tournament is finished.")
-            print("Players list by total points\n")
-            r_docid = RoundController.get_last_round_docid(tournament_id)
-            matches_tuples = MatchController.get_match_tuples(r_docid)
-            ordered_list = MatchController.sort_players_round(matches_tuples)
-            for player in ordered_list:
-                get_player = Player.get_player_w_docid(player[0])
-                print("{} {} ({}) - Total {}".format(get_player['first_name'],
-                                                     get_player['name'],
-                                                     get_player['rank'],
-                                                     player[1]))
-            answers = menu.results()
-            if answers['confirm']:
-                PlayerController.modify_player_in_t_rank(title, ordered_list)
-            else:
-                print("Back to main menu")
-                sleep(3)
-
     def go_next_round(tournament_id, current_round, len_rounds_list, title):
         round_type = Round.determine_round_type(len_rounds_list)
         if (round_type == "first_round"):
             r_docid = RoundController.first_round(tournament_id, current_round)
             RoundController.update_rounds_list(tournament_id, r_docid)
-            RoundController.attribute_results(title, r_docid)
+            RoundController.attribute_results(tournament_id, title, r_docid)
             return r_docid
         else:
             last_r_docid = RoundController.get_last_round_docid(tournament_id)
             r_docid = RoundController.round(tournament_id, current_round,
                                             last_r_docid)
             RoundController.update_rounds_list(tournament_id, r_docid)
-            RoundController.attribute_results(title, r_docid)
+            RoundController.attribute_results(tournament_id, title, r_docid)
             return r_docid
 
     # ATTRIBUTE RESULTS
 
-    def attribute_results(title, r_docid):
+    def attribute_results(tournament_id, title, r_docid):
         menu = RoundMenu(app_title=title)
         Cli.cli_entry(title)
         print("Attribute results to Match")
@@ -165,28 +116,42 @@ class RoundController():
             )
 
         answers = menu.attribute_results()
-        match_results = answers['match_results']
 
         if answers['confirm']:
-            MatchController.ask_winner(title, match_results)
-            if answers['confirm']:
-                RoundController.end_round_menu(title, r_docid)
+            MatchController.ask_winner(title, answers['match_results'])
+            end_r_answer = RoundController.end_round_menu(tournament_id,
+                                                          title,
+                                                          r_docid)
+            round = Round.get_round_with_doc_id(r_docid)
+            if end_r_answer['confirm']:
+                for match_docid in round['matches_list']:
+                    get_match = Match.get_matches_w_doc_id(match_docid)
+                    if get_match['p_one_score'] is None:
+                        print("\n!!! Please assign scores to all matches !!!")
+                        sleep(5)
+                        RoundController.attribute_results(tournament_id, title,
+                                                          r_docid)
+                    else:
+                        MatchController.calculate_points(match_docid)
+                pass
             else:
-                MatchController.ask_winner(title, match_results)
+                pass
         else:
-            RoundController.attribute_results(title, r_docid)
+            pass
 
-    def end_round_menu(title, r_doc_id):
+    def end_round_menu(tournament_id, title, r_doc_id):
         menu = RoundMenu(app_title=title)
         answers = menu.end_round()
 
         if not answers['confirm']:
-            RoundController.attribute_results(title, r_doc_id)
+            RoundController.attribute_results(tournament_id, title, r_doc_id)
 
         elif answers['confirm']:
             end_time = Round.time_round()
             RoundController.update_end_time(r_doc_id, end_time)
             pass
+
+        return answers
 
     # ROUNDS
 

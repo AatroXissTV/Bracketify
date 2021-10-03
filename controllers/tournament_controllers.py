@@ -14,12 +14,13 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
 
 # standard imports
+from time import sleep
 
 # third-party imports
 
@@ -30,6 +31,9 @@ from models.round_models import Round
 from models.match_models import Match
 from views.cli_views import Cli
 from views.tournament_views import TournamentMenu
+from views.round_views import RoundMenu
+from controllers.player_controllers import PlayerController
+from controllers.match_controllers import MatchController
 from controllers.round_controllers import RoundController
 
 # other
@@ -102,13 +106,57 @@ class TournamentController():
 
         answers = tournament_menu.select_tournament()
         if answers['confirm']:
-            RoundController.rounds_management(answers['selected_t'], title)
+            TournamentController.t_rounds_management(answers['selected_t'],
+                                                     title)
             Cli.cli_delay()
         else:
             print("\n You have chosen not to launch a tournament.")
             print("back to the main menu")
             Cli.cli_delay_no_interaction()
             pass
+
+    def t_rounds_management(tournament_id, title):
+        round_menu = RoundMenu(app_title=title)
+        tournament = Tournament.get_tournament_w_docid(tournament_id)
+        rounds_number = tournament['rounds_number']
+        len_rounds_list = Tournament.get_len_rounds_list(tournament_id)
+
+        while (len_rounds_list < (rounds_number)):
+            Cli.cli_entry(title)
+            answers = round_menu.start_round()
+
+            if answers['confirm']:
+                current_round = len_rounds_list+1
+                RoundController.go_next_round(tournament_id,
+                                              current_round,
+                                              len_rounds_list, title)
+                len_rounds_list = Tournament.get_len_rounds_list(tournament_id)
+            else:
+                print("The round has not started.")
+                print("We redirect you to the main menu")
+                Cli.cli_delay_no_interaction()
+
+        else:
+            Cli.cli_entry(title)
+            menu = RoundMenu(app_title=title)
+            print("The tournament is finished.")
+            print("Players list by total points\n")
+            r_docid = RoundController.get_last_round_docid(tournament_id)
+            matches_tuples = MatchController.get_match_tuples(r_docid)
+            ordered_list = MatchController.sort_players_round(matches_tuples)
+            for player in ordered_list:
+                get_player = Player.get_player_w_docid(player[0])
+                print("{} {} ({}) - Total {}".format(get_player['first_name'],
+                                                     get_player['name'],
+                                                     get_player['rank'],
+                                                     player[1]))
+            answers = menu.results()
+            if answers['confirm']:
+                PlayerController.modify_player_in_t_rank(title, ordered_list)
+            else:
+                print("Back to main menu")
+                sleep(3)
+                pass
 
     # DISPLAY
 
