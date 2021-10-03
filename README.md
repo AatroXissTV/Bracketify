@@ -57,6 +57,12 @@ I finally finished this long OpenClassrooms project that gave me a lot of troubl
 
 Everything works according to the specifications except for the matches which are not stored as tuples but directly with a list of key values in the database. 
 
+## TO DO
+
+there is still a bug to correct. 
+When you try to finish a round without having entered the scores of all the matches, the program returns an error but the scores are not reset to 0.
+
+
 ## Author
 
 This software was made by Antoine "AatroXiss" Beaudesson with :heart: and :coffee:
