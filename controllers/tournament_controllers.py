@@ -14,7 +14,7 @@ __author__ = "Antoine 'AatroXiss' BEAUDESSON"
 __copyright__ = "2021 Aatroxiss <antoine.beaudesson@gmail.com>"
 __credits__ = ["Antoine 'AatroXiss' BEAUDESSON"]
 __license__ = ""
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __maintainer__ = "Antoine 'AatroXiss' BEAUDESSON"
 __email__ = "<antoine.beaudesson@gmail.com>"
 __status__ = "Student in Python"
@@ -110,8 +110,8 @@ class TournamentController():
                                                      title)
             Cli.cli_delay()
         else:
-            print("\n You have chosen not to launch a tournament.")
-            print("back to the main menu")
+            print("\nYou have chosen not to launch a tournament.")
+            print("back to main menu")
             Cli.cli_delay_no_interaction()
             pass
 
@@ -135,6 +135,7 @@ class TournamentController():
                 print("The round has not started.")
                 print("We redirect you to the main menu")
                 Cli.cli_delay_no_interaction()
+                break
 
         else:
             Cli.cli_entry(title)
